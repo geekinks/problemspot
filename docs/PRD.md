@@ -1,13 +1,14 @@
 # ProblemSpot — Product Requirements Document (PRD)
 
-**Version:** 1.0  
-**Status:** Draft for Development  
-**Project Type:** Open-Source, AI-Powered Community Innovation Platform  
-**Repository:** `problemspot`  
-**Proposed Domain:** `problemspot.tech` 
-**Initiative:** Hacktoberfest 2026 — AI for Everyone  
-**Organization:** GeekInk Innovations Ltd  
+**Version:** 1.0\
+**Status:** Draft for Development\
+**Project Type:** Open-Source, AI-Powered Community Innovation Platform\
+**Repository:** [`geekinks/problemspot`](https://github.com/geekinks/problemspot)\
+**Primary Domain:** [`problemspot.tech`](https://problemspot.tech) *(Secured)* | **Backup:** `problemspot.org`\
+**Initiative:** Hacktoberfest 2026 — AI for Everyone\
+**Organization:** GeekInk Innovations Ltd\
 **Tagline:** Report It. Validate It. Solve It.
+
 
 ---
 
