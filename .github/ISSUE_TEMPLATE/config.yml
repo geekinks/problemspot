@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
   - name: Security vulnerability
-    url: https://github.com/OWNER/REPO/security/advisories/new
+    url: https://github.com/geekinks/problemspot/security/advisories/new
     about: Please report security vulnerabilities privately. Do not create a public issue.
   - name: Questions and community discussion
-    url: https://github.com/OWNER/REPO/discussions
+    url: https://github.com/geekinks/problemspot/discussions
     about: Ask questions or discuss ideas with the ProblemSpot community.

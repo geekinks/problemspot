@@ -210,18 +210,16 @@ Technology choices may evolve as the project is tested and developed.
 
 ## Getting started
 
-> **Project status:** This README describes the intended architecture.
-> Setup commands below are a starting point; the exact application
-> scripts and Supabase configuration must match the implementation in
-> the repository.
+> **Project status:** The Next.js app shell is available. Reporting,
+> authentication, Supabase, and AI integrations are planned but are not
+> required to run the landing page.
 
 ### Prerequisites
 
--   Node.js LTS compatible with the selected Next.js version.
+-   Node.js 20.9 or newer.
 -   npm (or the package manager configured by the repository).
--   A Supabase project, or Supabase CLI for local development.
 -   Git.
--   Optional: access to the Gemma inference service for AI features.
+-   Optional for future features: a Supabase project and Gemma inference service.
 
 ### 1. Clone the repository
 
@@ -238,7 +236,8 @@ npm install
 
 ### 3. Configure environment variables
 
-Create a local environment file:
+The landing page runs without environment variables. For future integrations,
+create a local environment file:
 
 ``` bash
 cp .env.example .env.local
@@ -247,7 +246,7 @@ cp .env.example .env.local
 Add the values for your development environment. Never commit
 `.env.local`.
 
-### 4. Configure Supabase
+### 4. Configure Supabase when implementing integrated features
 
 1.  Create a Supabase project.
 2.  Copy the project URL and publishable key into `.env.local`.
@@ -264,8 +263,13 @@ npm run dev
 
 Open <http://localhost:3000>.
 
-The commands assume the repository uses standard Next.js scripts. Check
-`package.json` if the scripts differ.
+Development checks: `npm run typecheck`, `npm run lint`, `npm run
+format:check`, and `npm run build`. Use `npm run format` to apply formatting.
+To add a shadcn/ui component, run `npx shadcn@latest add button` (or another
+component name). Shared UI primitives belong in `components/ui`; reusable
+layout belongs in `components/layout`; feature code belongs in `features`.
+The directories for future routes and modules remain empty until those
+features are implemented.
 
 ## Environment variables
 

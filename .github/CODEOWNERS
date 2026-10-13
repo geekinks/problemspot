@@ -1,5 +1,5 @@
 # Replace these examples with the GitHub handles of maintainers.
 # Remove the leading # and update paths only after confirming the owners.
 # * @YOUR_GITHUB_ORG/maintainers
-/supabase/ @YOUR_GITHUB_ORG/backend-maintainers
-/.github/ @YOUR_GITHUB_ORG/maintainers
+/supabase/ @AdamsGeeky/backend-maintainers
+/.github/ @Adamsgeeky/maintainers

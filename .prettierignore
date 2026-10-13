@@ -1,0 +1,12 @@
+node_modules
+.next
+out
+build
+coverage
+package-lock.json
+*.png
+*.md
+docs
+.github
+.agents
+.codex
