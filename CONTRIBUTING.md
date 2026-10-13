@@ -73,20 +73,22 @@ Install the versions supported by the repository and have access to:
 
 ### Get the code
 
-Fork the repository on GitHub, then clone your fork:
+Fork the repository on GitHub ([`geekinks/problemspot`](https://github.com/geekinks/problemspot)), then clone your personal fork:
 
 ```bash
-git clone https://github.com/geekinks/problemspot.git
+git clone https://github.com/<your-username>/problemspot.git
 cd problemspot
 ```
 
-Add the original repository as `upstream` if you have forked it:
+Configure the upstream remote pointing to the main organization repository:
 
 ```bash
 git remote add upstream https://github.com/geekinks/problemspot.git
 ```
 
-Replace the placeholder organization and username with the actual repository details.
+Verify your remotes:
+- `origin` points to your personal fork (`https://github.com/<your-username>/problemspot.git`)
+- `upstream` points to the primary repository (`https://github.com/geekinks/problemspot.git`)
 
 ### Install dependencies
 
@@ -129,68 +131,82 @@ npm run dev
 
 Follow the README and existing project scripts if they differ from these examples.
 
-## Contribution Workflow
+## Mandatory Contribution Workflow
 
-### 1. Choose or discuss the work
+All contributors (including maintainers and automated pair-programming agents) must follow this strict 5-step lifecycle. **Direct commits or pushes to `main` are strictly prohibited.**
 
-- For a bug, describe the expected and actual behavior and how to reproduce it.
-- For a feature, explain the user problem, the proposed solution, and any trade-offs.
-- For a database or security change, explain its effect on data access, privacy, and existing records.
-- For AI changes, describe how quality will be evaluated and what happens when the model is unavailable or uncertain.
-
-### 2. Create a focused branch
-
-Start from the latest default branch:
-
-```bash
-git checkout main
-git pull upstream main
-git checkout -b feat/short-description
+```mermaid
+flowchart LR
+    A["1. Issue on Main Repo<br/>(geekinks/problemspot)"] --> B["2. Fork & Dedicated Branch<br/>(origin: feat/xyz)"]
+    B --> C["3. Implement & Test<br/>(Conventions & Linting)"]
+    C --> D["4. Open PR to Main<br/>(Closes #...)"]
+    D --> E["5. Review & Squash Merge<br/>(Wait for merge)"]
 ```
 
-Use the actual default branch if it is not `main`. Suggested branch prefixes:
+### 1. Check Existing Issues or Open a New Issue
+- **All issues must be opened on the upstream repository:** [`geekinks/problemspot/issues`](https://github.com/geekinks/problemspot/issues).
+- Before writing any code, search open issues with `gh issue list --repo geekinks/problemspot`.
+- If no issue covers your proposed work, open one with `gh issue create --repo geekinks/problemspot` to align on requirements, user problem, and technical approach.
+- **Unsolicited PRs without an associated issue will not be reviewed.**
 
-- `feat/` — new functionality
-- `fix/` — bug fixes
-- `docs/` — documentation
-- `test/` — tests
-- `refactor/` — internal improvements
-- `chore/` — maintenance and tooling
+### 2. Fork the Repository and Create a Dedicated Branch
+- If you haven't already, fork the repository using the GitHub CLI or web UI:
+  ```bash
+  gh repo fork geekinks/problemspot --clone=false --remote=true
+  ```
+- Always sync your local default branch (`main`) with `upstream/main` before creating a new branch:
+  ```bash
+  git checkout main
+  git pull upstream main
+  git checkout -b <type>/<kebab-case-description>
+  ```
+- **Branch naming conventions:**
+  - `feat/` — new user-facing functionality or enhancement
+  - `fix/` — bug fixes
+  - `docs/` — documentation, guides, or specifications
+  - `design/` — design system tokens, wireframes, or UI assets
+  - `test/` — automated unit, integration, or e2e tests
+  - `refactor/` — internal code quality improvements without behavioral changes
+  - `chore/` — maintenance, tooling, dependencies, and configuration
+- Keep each branch focused on one logical issue. Never commit directly to `main`.
 
-Keep each branch focused on one logical change.
+### 3. Make and Verify Your Changes Locally
+- Adhere to [`brand.md`](brand.md) visual standards and [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) design boundaries.
+- Follow TypeScript strict typing; avoid `any`.
+- Run static analysis, linting, and tests locally before committing. Ensure 0 errors and all tests pass:
+  ```bash
+  npm run lint
+  npm test
+  ```
+- Commit using Conventional Commits with clear scope:
+  ```text
+  feat(problems): implement problem submission wizard with category select
+  fix(voting): prevent duplicate personal confirmation entries
+  docs(contributing): formalize fork and PR contribution workflow
+  test(auth): add RLS policy verification tests
+  ```
 
-### 3. Make and verify your changes
+### 4. Push to Fork and Open a Pull Request
+- Push your dedicated branch to your personal fork (`origin`):
+  ```bash
+  git push -u origin <type>/<kebab-case-description>
+  ```
+- Open a Pull Request targeting `geekinks/problemspot:main` referencing the issue:
+  ```bash
+  gh pr create --repo geekinks/problemspot --title "<type>(<scope>): <summary>" --body "Closes #<issue_number>"
+  ```
+- Complete the PR description detailing the problem solved, testing performed, and UI screenshots/recordings if applicable.
 
-- Follow the existing code patterns and conventions.
-- Add or update tests where appropriate.
-- Update documentation when behavior, setup, environment variables, or API contracts change.
-- Add database changes as version-controlled Supabase migrations.
-- Test relevant permissions and RLS policies with the roles affected by the change.
-- Do not include unrelated formatting changes or generated files unless required.
-
-### 4. Commit your work
-
-Use clear, descriptive commit messages. Conventional Commit-style messages are encouraged:
-
-```text
-feat: add problem category filters
-fix: prevent duplicate community votes
-docs: clarify local Supabase setup
-test: cover problem status transitions
-refactor: isolate AI provider adapter
-```
-
-Keep commits understandable and avoid bundling unrelated changes.
-
-### 5. Push and open a pull request
-
-```bash
-git push origin feat/short-description
-```
-
-Open a pull request against the project's default branch. Complete the pull request template, explain the change, link related issues, and include screenshots or recordings for UI changes when useful.
-
-Be ready to respond to review feedback and make follow-up changes. A review is a collaborative quality check, not a personal judgment.
+### 5. Review, CI Verification, and Squash Merge
+- **Do not merge directly.** Wait for automated CI checks and maintainer review.
+- Respond constructively to review feedback and push adjustments to your branch as needed.
+- Once approved and CI passes, maintainers will squash-merge the PR into `main` and delete the remote branch.
+- After merge, switch back to `main`, sync locally, and clean up your feature branch:
+  ```bash
+  git checkout main
+  git pull upstream main
+  git branch -d <type>/<kebab-case-description>
+  ```
 
 ## Code and Documentation Guidelines
 

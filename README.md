@@ -1,6 +1,20 @@
 # ProblemSpot
 
-**Report It. Validate It. Solve It.**
+<p align="center">
+  <img src="logo.png" alt="ProblemSpot Logo" width="180" />
+</p>
+
+<p align="center">
+  <strong>Real Community Problems. Together, Real Solutions.</strong><br />
+  <em>Report It. Validate It. Solve It.</em>
+</p>
+
+<p align="center">
+  <a href="https://github.com/geekinks/problemspot/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License: MIT" /></a>
+  <a href="https://hacktoberfest.com"><img src="https://img.shields.io/badge/Hacktoberfest-2026-blueviolet.svg" alt="Hacktoberfest 2026" /></a>
+  <a href="https://github.com/geekinks/problemspot/issues"><img src="https://img.shields.io/github/issues/geekinks/problemspot?color=168447" alt="Open Issues" /></a>
+  <a href="https://github.com/geekinks/problemspot/pulls"><img src="https://img.shields.io/github/issues-pr/geekinks/problemspot?color=2563EB" alt="Open PRs" /></a>
+</p>
 
 ProblemSpot is an open-source, AI-assisted community problem discovery
 and validation platform. It helps people report challenges affecting
@@ -12,10 +26,12 @@ opportunities to build solutions.
 > the needs. AI assists the process. Contributors build the solutions.
 > Communities measure the impact.
 
-**Organization:** GeekInk Innovations Ltd\
-**Initiative:** Hacktoberfest 2026 --- AI for Everyone\
-**Repository:** `problemspot`\
-**Proposed domain:** `problemspot.tech` (availability not verified)
+- **Organization:** GeekInk Innovations Ltd
+- **Initiative:** Hacktoberfest 2026 — AI for Everyone
+- **Repository:** [`geekinks/problemspot`](https://github.com/geekinks/problemspot)
+- **Primary Domain:** [`problemspot.tech`](https://problemspot.tech) *(Secured)*
+- **Backup Mirror:** `problemspot.org` *(Reserved)*
+- **Topics & Tags:** `hacktoberfest`, `agent`, `community`, `ai`, `open-source`, `problem-solving`
 
 ------------------------------------------------------------------------
 
