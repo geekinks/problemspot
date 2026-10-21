@@ -2,7 +2,7 @@
 
 **Version:** 1.0\
 **Status:** Draft for Development\
-**Project Type:** Open-Source, AI-Powered Community Innovation Platform\
+**Project Type:** Open-Source Community Problem and Solution Platform\
 **Repository:** [`geekinks/problemspot`](https://github.com/geekinks/problemspot)\
 **Primary Domain:** [`problemspot.tech`](https://problemspot.tech) *(Secured)* | **Backup:** `problemspot.org`\
 **Initiative:** Hacktoberfest 2026 — AI for Everyone\
@@ -14,15 +14,15 @@
 
 ## 1. Executive Summary
 
-ProblemSpot is an open-source, AI-powered community problem discovery and validation platform that enables individuals to report challenges affecting their communities, allows other community members to confirm and prioritize those challenges, and connects validated problems with developers, researchers, volunteers, organizations, and AI enthusiasts who can help develop solutions.
+ProblemSpot is an open-source community problem discovery, validation, and solution-building platform. It enables individuals to report challenges affecting their communities, allows other community members to confirm and support those reports, and turns validated problems into open-source missions for developers, researchers, designers, volunteers, and partner organizations.
 
-The platform addresses a common challenge in technology development: solutions are often built without sufficient understanding of the problems people actually experience.
+AI and coding agents have made application development faster and more accessible. However, making an app is not the same as making something valuable. Builders still need to know which problems are real, which are worth contributing to, who is affected, what evidence exists, and how success should be measured.
 
-ProblemSpot reverses this approach by starting with community needs rather than technology.
+ProblemSpot addresses that gap by starting with community needs rather than technology. Reporting, categorization, duplicate review, moderation, and validation are human-led. After a problem is validated, it becomes an open-source mission that contributors can explore and solve together.
 
-Artificial intelligence will help organize submissions, identify duplicate reports, categorize challenges, summarize evidence, and generate structured problem briefs. Community members remain responsible for confirming their experiences, providing evidence, and determining which challenges deserve attention.
+An optional AI Solution Lab is available only after validation. It can help contributors prepare an editable solution brief, explore possible approaches, identify required skills, divide work into milestones and GitHub issues, and document testing criteria. It does not validate problems, rank community needs, choose a winning solution, or declare impact.
 
-The project will promote open collaboration, responsible AI experimentation, and measurable social impact, particularly in underserved communities.
+The project will promote open-source participation, transparent community decision-making, responsible use of coding agents, and measurable social impact, particularly in underserved communities.
 
 ### Product vision
 
@@ -34,7 +34,7 @@ Empower people to identify challenges in their communities and connect those cha
 
 ### Core principle
 
-**People define the problems. Communities validate the needs. AI assists the process. Contributors build the solutions. Communities measure the impact.**
+**People define the problems. Communities validate the needs. Contributors build solutions in the open. AI may assist builders after validation. Communities measure the impact.**
 
 ---
 
@@ -52,7 +52,7 @@ However, several barriers prevent these challenges from becoming actionable proj
 6. **Limited recognition:** People who identify and document problems rarely receive recognition for their contribution.
 7. **Unmeasured outcomes:** Even when a solution is developed, it may be difficult to establish whether it actually improved the situation.
 
-ProblemSpot aims to address these challenges through structured submissions, community validation, AI-assisted organization, contributor recognition, and impact tracking.
+ProblemSpot aims to address these challenges through structured submissions, community validation, transparent progress, open-source collaboration, contributor recognition, and impact tracking.
 
 ---
 
@@ -64,13 +64,12 @@ ProblemSpot aims to address these challenges through structured submissions, com
 - Make submissions discoverable by location, category, severity, and status.
 - Allow affected people to confirm that they experience a reported problem.
 - Allow other users to express support without falsely claiming personal experience.
-- Use AI to improve the quality and organization of problem reports.
-- Detect likely duplicates and connect related submissions.
+- Use human review to organize reports, resolve likely duplicates, and connect related submissions.
 - Recognize problem submitters through public or private contribution profiles.
 - Connect problem reports with people willing to develop solutions.
 - Track the progress of problems from submission through implementation.
 - Provide an open-source codebase that welcomes community contributions.
-- Demonstrate responsible, meaningful use of open-weight AI models.
+- Help contributors use AI and coding agents responsibly inside an optional Solution Lab after a problem has been validated.
 
 ### 3.2 Non-goals for the MVP
 
@@ -78,7 +77,8 @@ The initial release will not attempt to:
 
 - Guarantee that every submitted problem is factually correct.
 - Replace government complaint systems or emergency services.
-- Automatically solve every problem using AI.
+- Use AI to submit, categorize, rank, moderate, validate, approve, reject, or verify community problems.
+- Automatically solve problems or choose winning solutions using AI.
 - Provide financial rewards for votes or submissions.
 - Conduct binding elections or public referendums.
 - Rank political candidates, parties, or organizations.
@@ -114,9 +114,9 @@ A person who wants to confirm, support, or provide evidence for a reported chall
 - Add context or evidence.
 - See how community concerns progress.
 
-### 4.3 Developer or AI Builder
+### 4.3 Open-Source Contributor
 
-A software developer, researcher, designer, or AI enthusiast looking for meaningful projects.
+A software developer, researcher, designer, writer, community organizer, or other contributor looking for meaningful problems and collaborative projects.
 
 **Needs:**
 - Discover validated and well-documented problems.
@@ -143,7 +143,7 @@ The person responsible for platform operations, policies, permissions, and techn
 
 **Needs:**
 - Manage users and roles.
-- Configure AI providers and model policies.
+- Configure optional Solution Lab providers, coding-agent policies, and access controls.
 - Monitor system performance and abuse.
 - Manage categories and moderation rules.
 - Review analytics and impact metrics.
@@ -168,24 +168,25 @@ An NGO, educational institution, local organization, or business interested in s
 2. Community problem submission.
 3. Problem discovery and filtering.
 4. Community confirmation and support voting.
-5. AI-assisted categorization and duplicate detection.
-6. Problem validation statuses.
-7. Community Impact Profiles.
-8. Basic recognition badges.
+5. Human-managed categories, duplicate review, and related-problem links.
+6. Problem validation statuses and visible status history.
+7. Followable reports, meaningful notifications, and shareable problem pages.
+8. Community Impact Profiles and outcome-based recognition.
 9. Moderation and reporting.
-10. Solution proposals and implementation status.
-11. Basic impact tracking.
-12. Open-source documentation and contribution guidelines.
+10. Open-source missions, solution proposals, contributors, and implementation milestones.
+11. An optional AI Solution Lab available only for validated problems.
+12. Basic impact tracking.
+13. Open-source documentation and contribution guidelines.
 
 ### 5.2 Post-MVP features
 
 - Interactive geographic problem maps.
-- Multilingual submission and AI assistance, including Hausa.
+- Multilingual submission and community translation support, including Hausa.
 - Offline-first submission capabilities for areas with limited connectivity.
 - Organization and institutional accounts.
 - Public APIs for community datasets.
 - Advanced contributor matching.
-- AI-generated solution briefs and project roadmaps.
+- Advanced Solution Lab workflows for project roadmaps, repository scaffolding, and coding-agent collaboration.
 - Integration with GitHub issues and pull requests.
 - Verified partner and community organization profiles.
 - Public impact reports and downloadable datasets.
@@ -341,42 +342,62 @@ Additional states may include **Needs More Information**, **Merged**, **Rejected
 - Users can see relevant status explanations.
 - Disputed reports can be reviewed again.
 
-### FR-06: AI-Assisted Problem Analysis
+### FR-06: Validated Problem and Open-Source Mission Handoff
 
-AI should help improve report quality and discover relationships between problems.
+When a problem is validated, ProblemSpot must turn the reviewed community need
+into a contributor-ready open-source mission without changing the original
+report or evidence.
 
-**Initial AI capabilities:**
+**Requirements:**
 
-1. **Categorization:** Suggest categories and subcategories.
-2. **Summarization:** Produce concise summaries from lengthy descriptions.
-3. **Duplicate detection:** Identify semantically similar reports.
-4. **Related-problem discovery:** Link reports describing connected challenges.
-5. **Problem brief generation:** Prepare structured summaries for potential solution contributors.
-6. **Language assistance:** Help users clarify reports while preserving their original meaning.
+1. Only an authorized human reviewer may move a problem to `verified`.
+2. A validated problem receives an open-source mission workspace containing
+   the affected users, approved evidence, known constraints, open questions,
+   desired outcomes, and success criteria.
+3. Contributors can follow the mission, propose approaches, declare relevant
+   skills, join a team, and link repositories, issues, pull requests,
+   prototypes, documentation, and deployments.
+4. Moderators and community representatives can correct the mission context
+   without silently rewriting the original report.
+5. The mission remains usable through fully manual collaboration.
 
-**AI requirements:**
-- Use a documented open-weight model where appropriate.
-- Record the exact model identifier, version, license or terms, and deployment method.
-- Make AI suggestions reviewable and correctable.
-- Preserve original user submissions.
-- Treat AI output as advisory rather than authoritative.
-- Never allow an AI score alone to mark a report as verified.
-- Avoid exposing personal or sensitive information to external model providers without appropriate safeguards.
-- Log model errors and relevant processing metadata without unnecessarily retaining sensitive content.
-- Provide a fallback path when the model is unavailable.
+**Optional AI Solution Lab:**
 
-**Suggested initial architecture:**
+Authorized contributors may use the AI Solution Lab only after the associated
+problem is validated. The lab may:
 
-A model with 10 billion parameters or fewer can be evaluated for lightweight classification and summarization. Larger models may be tested when complex reasoning justifies the additional compute and cost.
+- Draft an editable solution brief from approved mission context.
+- Surface unanswered research questions and implementation constraints.
+- Suggest technical and non-technical approaches without selecting a winner.
+- Break an accepted approach into milestones, GitHub issues, and contributor
+  roles.
+- Draft repository documentation, testing criteria, accessibility checks, and
+  privacy or safety checklists.
+- Summarize feedback collected while a solution is being tested.
 
-Model selection must consider hardware requirements, latency, accuracy, language coverage, deployment costs, and licensing.
+**Solution Lab safeguards:**
+
+- The service must verify the problem's validation status before every run.
+- AI and coding agents must not participate in reporting, categorization,
+  duplicate review, moderation, validation, prioritization, or verification.
+- Original reports, evidence, and human review decisions must be preserved.
+- Generated output must be labeled, attributable, editable, and reviewable.
+- No generated output may automatically accept a solution, merge code, change
+  a problem's status, or claim impact.
+- Sensitive or restricted evidence must not be sent to a provider without an
+  explicit, authorized data-sharing basis.
+- Manual solution collaboration must continue when the provider is unavailable.
 
 **Acceptance criteria:**
-- AI-generated fields are distinguishable from user-written content.
-- Users can correct inappropriate category suggestions.
-- Duplicate detection presents candidate matches rather than automatically merging unrelated reports.
-- AI failures do not prevent ordinary submissions or voting.
-- Model outputs are evaluated against a documented test set before production deployment.
+
+- Unvalidated problems cannot invoke the Solution Lab.
+- A validated problem can become a contributor-ready open-source mission
+  without using AI.
+- Contributors can accept, edit, or discard generated artifacts.
+- Every Solution Lab run records its requester, purpose, provider, model or
+  agent version, source context, output, status, and timestamps.
+- Provider failure does not block proposals, collaboration, milestones, or
+  impact tracking.
 
 ### FR-07: Community Impact Profiles
 
@@ -517,11 +538,14 @@ Users should be able to control non-essential notifications.
 2. The user selects "Report a Problem."
 3. The user describes the challenge and affected community.
 4. The platform validates the required fields.
-5. AI suggests a category and identifies potentially related reports.
-6. The user reviews and submits the report.
-7. The report enters the review workflow.
-8. Other community members can discover and respond to it.
-9. The submitter tracks progress through their Community Impact Profile.
+5. The user selects a category and reviews potentially related reports found
+   through ordinary search.
+6. The user submits the report.
+7. The report enters the human review workflow.
+8. Other community members can discover, follow, confirm, support, and add
+   evidence to it.
+9. The submitter receives progress updates and tracks the report through their
+   Community Impact Profile.
 
 ### Journey B: Confirming a Problem
 
@@ -537,11 +561,15 @@ Users should be able to control non-essential notifications.
 1. A developer searches for relevant problems.
 2. The developer opens a validated report.
 3. The developer reviews the affected users, evidence, and constraints.
-4. The developer submits a solution proposal.
-5. Contributors collaborate on the solution.
-6. Implementation milestones are recorded.
-7. The community provides feedback.
-8. The outcome is assessed and contributors receive appropriate recognition.
+4. The validated report opens as an open-source mission.
+5. The developer may use the optional AI Solution Lab to prepare an editable
+   brief, explore approaches, identify skills, or divide accepted work into
+   tasks.
+6. The developer submits a solution proposal and invites contributors.
+7. Contributors collaborate through linked repositories, issues, pull
+   requests, milestones, prototypes, and documentation.
+8. The community provides feedback during testing.
+9. The outcome is assessed and contributors receive appropriate recognition.
 
 ---
 
@@ -557,27 +585,32 @@ Users should be able to control non-essential notifications.
 | Authentication | Supabase Auth |
 | Database | PostgreSQL through Supabase |
 | File storage | Supabase Storage |
-| AI integration | Provider-independent model adapter |
-| Model inference | Self-hosted or approved inference provider |
+| Optional Solution Lab | Provider-independent AI and coding-agent adapter |
+| Solution collaboration | GitHub repositories, issues, and pull requests |
 | Validation and schemas | TypeScript with a schema validation library |
 | Testing | Unit, integration, and end-to-end testing |
 | Deployment | Vercel or another compatible hosting provider |
 | Version control | GitHub |
 | CI/CD | GitHub Actions |
 
-This stack is a proposed starting point. The team should validate deployment costs, model infrastructure, and operational requirements before committing to production architecture.
+This stack is a proposed starting point. The team should validate deployment
+costs, provider data handling, and operational requirements before enabling the
+optional Solution Lab in production.
 
 ### 8.2 Architecture principles
 
 - Use a modular monolith for the MVP rather than unnecessary microservices.
-- Keep AI inference behind a clearly defined service interface.
+- Keep the optional Solution Lab behind a clearly defined service interface and
+  a validated-problem authorization gate.
 - Separate public API operations from privileged moderation operations.
 - Enforce authorization at the server and database layers.
 - Use database transactions or equivalent atomic operations for voting.
-- Store model identifiers and relevant inference metadata.
+- Store provider, model or agent identifiers, source-context hashes, and run
+  metadata for Solution Lab requests.
 - Keep secrets out of client-side code and public repositories.
 - Design interfaces for mobile devices and low-bandwidth environments.
-- Make core platform functionality independent of AI availability.
+- Keep reporting, discovery, voting, evidence, moderation, validation, solution
+  collaboration, and impact tracking independent of AI availability.
 
 ### 8.3 Proposed repository structure
 
@@ -593,13 +626,13 @@ problemspot/
 ├── features/
 │   ├── submissions/
 │   ├── validation/
-│   ├── ai-analysis/
+│   ├── solution-lab/
 │   ├── solutions/
 │   └── impact-tracking/
 ├── lib/
 │   ├── auth/
 │   ├── database/
-│   ├── ai/
+│   ├── solution-lab/
 │   └── validation/
 ├── supabase/
 │   └── migrations/
@@ -607,7 +640,7 @@ problemspot/
 ├── docs/
 │   ├── PRD.md
 │   ├── ARCHITECTURE.md
-│   ├── AI_MODEL_CARD.md
+│   ├── SOLUTION_LAB_POLICY.md
 │   └── MODERATION_POLICY.md
 ├── .github/
 │   ├── ISSUE_TEMPLATE/
@@ -653,12 +686,11 @@ The following entities represent the initial conceptual database design.
 - `frequency`
 - `status`
 - `public_anonymous`
-- `ai_summary`
-- `ai_category_suggestion`
 - `created_at`
 - `updated_at`
 
-AI-generated fields must be tracked separately from original user content.
+Original user content must remain separate from moderator notes, validation
+decisions, mission briefs, and Solution Lab output.
 
 ### 9.3 ProblemVote
 
@@ -693,8 +725,8 @@ Enforce a database uniqueness constraint on `(problem_id, user_id, vote_type)`.
 - `problem_id`
 - `related_problem_id`
 - `relation_type`
-- `confidence`
 - `review_status`
+- `created_by`
 
 Use this entity for candidate duplicates, merged reports, and related challenges.
 
@@ -742,96 +774,134 @@ Use this entity for candidate duplicates, merged reports, and related challenges
 - `reason`
 - `created_at`
 
-### 9.10 AIAnalysis
+### 9.10 SolutionLabRun
 
 - `id`
 - `problem_id`
+- `solution_id`
+- `requested_by`
+- `provider`
 - `model_id`
 - `model_version`
 - `task_type`
+- `input_hash`
 - `output`
-- `confidence_metadata`
-- `review_status`
+- `status`
+- `error_code`
 - `created_at`
+- `completed_at`
 
-Avoid storing unnecessary sensitive prompt content. Apply appropriate access controls and retention policies.
+Each run must reference a validated problem. Avoid storing unnecessary
+sensitive prompt content. Apply appropriate access controls and retention
+policies.
 
 ---
 
-## 10. AI Model Strategy
+## 10. AI Solution Lab Strategy
 
-ProblemSpot should demonstrate that open-weight AI can serve a meaningful community purpose.
+AI and coding agents can generate application code quickly, but they cannot
+decide which community problems deserve attention. ProblemSpot establishes
+that human-validated context first. The optional AI Solution Lab then helps
+contributors collaborate on solutions without replacing community judgment or
+open-source review.
 
-### Initial AI tasks
+### Eligibility gate
 
-**Task 1: Classification**
+A Solution Lab request is permitted only when:
 
-Input: Problem title and description.
+- The problem has the `verified` status.
+- The requester is authorized to contribute to the mission or its solution.
+- The input contains only approved mission context and evidence the requester
+  is allowed to access.
+- The requested task supports solution development rather than problem
+  reporting, validation, prioritization, or moderation.
 
-Output: Suggested category and subcategory.
+### Initial Solution Lab tasks
 
-**Task 2: Duplicate detection**
+**Task 1: Solution brief drafting**
 
-Input: A new report and candidate existing reports.
+Input: Validated mission context and approved evidence.
 
-Output: A ranked list of potentially related reports with explanations.
+Output: An editable brief covering affected users, constraints, open questions,
+desired outcomes, and success criteria.
 
-**Task 3: Summarization**
+**Task 2: Approach exploration**
 
-Input: A problem report and approved supporting information.
+Input: An approved solution brief and contributor constraints.
 
-Output: A concise summary of the challenge, affected users, and known constraints.
+Output: Multiple technical and non-technical approaches with assumptions,
+trade-offs, accessibility considerations, risks, and questions for humans.
 
-**Task 4: Problem brief generation**
+**Task 3: Open-source work planning**
 
-Input: An approved report, reviewed evidence, and relevant community context.
+Input: A human-accepted solution approach.
 
-Output: A structured brief describing the problem, its impact, open questions, and potential directions for investigation.
+Output: Suggested milestones, contributor roles, GitHub issues, acceptance
+criteria, and testing tasks.
 
-### Model selection criteria
+**Task 4: Repository assistance**
+
+Input: An accepted plan and contributor-selected technology choices.
+
+Output: Draft README content, architecture notes, issue templates, test plans,
+or code changes for human review through the normal pull-request process.
+
+**Task 5: Testing-feedback synthesis**
+
+Input: Approved feedback collected during solution testing.
+
+Output: An editable summary of recurring findings, unresolved risks, and
+possible next steps.
+
+### Provider selection criteria
 
 The team should evaluate:
 
-- Open-weight availability and the model's specific license or usage terms.
-- Parameter count and hardware requirements.
-- Accuracy on representative problem reports.
-- Performance on Nigerian English and relevant local languages.
-- Latency and inference cost.
-- Privacy and data-handling implications.
-- Ability to run locally or on affordable infrastructure.
+- License and usage terms.
+- Hardware, hosting, and integration requirements.
+- Quality on representative validated missions and solution-building tasks.
+- Latency and cost.
+- Privacy, retention, and data-handling practices.
+- Compatibility with open-source workflows.
 - Reproducibility and ease of community contribution.
 
-### Model evaluation
+### Solution Lab evaluation
 
-Create a small, human-reviewed evaluation dataset covering multiple categories, ambiguous descriptions, duplicate reports, incomplete submissions, and multilingual content.
+Create a small, human-reviewed evaluation set covering solution briefs,
+approach comparisons, task decomposition, repository documentation, safety
+checks, and feedback synthesis across representative missions.
 
 Measure:
 
-- Classification accuracy or macro-F1.
-- Duplicate-detection precision and recall.
-- Summary factual consistency.
-- Human reviewer acceptance rate.
-- Latency and inference cost.
-- Performance differences across languages and categories.
+- Faithfulness to the validated mission context.
+- Unsupported-claim and context-omission rates.
+- Usefulness and actionability as rated by contributors and community reviewers.
+- Human edit, acceptance, and rejection rates.
+- Latency and cost.
+- Performance differences across problem domains and contributor experience levels.
 
-Do not assume that a larger model will automatically produce better results. Select the smallest model that meets the required quality and operational constraints.
+Select the simplest provider or model that meets the required quality,
+privacy, operational, and licensing constraints.
 
-### Agent skills and model harness
+### Agent skills and harness
 
-If agent skills are introduced, each skill should have a narrow, documented purpose, such as:
+If agent skills are introduced, each skill should have a narrow, documented
+purpose, such as:
 
-- `categorize-problem`
-- `detect-duplicate-problem`
-- `summarize-community-evidence`
-- `generate-problem-brief`
+- `draft-solution-brief`
+- `compare-solution-approaches`
+- `plan-open-source-milestones`
+- `draft-github-issues`
+- `prepare-solution-test-plan`
 
 Skills must follow the Agent Skills specification if compatibility is claimed.
-
-An optional model harness can manage prompts, tools, context, and task execution. The MVP should not require a complex autonomous agent if a simple, testable inference pipeline is sufficient.
+An optional harness can manage prompts, tools, approved context, and task
+execution. Agents must not autonomously merge code, change validation status,
+accept a solution, contact affected people, or publish impact claims.
 
 ---
 
-## 11. Security, Privacy, and Responsible AI
+## 11. Security, Privacy, and Responsible Solution Lab Use
 
 ProblemSpot may receive sensitive information about individuals, schools, businesses, and communities. Privacy and abuse prevention must be considered from the beginning.
 
@@ -856,17 +926,21 @@ ProblemSpot may receive sensitive information about individuals, schools, busine
 - Obtain appropriate permission for photographs and personal information.
 - Support removal of sensitive material.
 - Define data export and account deletion procedures.
-- Clearly disclose AI processing and third-party providers.
+- Clearly disclose Solution Lab processing, coding-agent behavior, and
+  third-party providers.
 
-### Responsible AI requirements
+### Responsible Solution Lab requirements
 
-- Never treat model-generated output as verified evidence.
-- Never automatically suppress a report solely because of an AI score.
-- Provide human review for consequential moderation decisions.
-- Preserve uncertainty when evidence is incomplete.
-- Avoid generating defamatory or unsupported accusations.
-- Make AI-assisted transformations visible to users.
-- Evaluate model performance across different communities and languages.
+- Enforce the validated-problem gate before every request.
+- Never use generated output as evidence for problem validation or impact.
+- Never allow a model or coding agent to prioritize community needs, accept a
+  proposal, merge code, or publish a solution automatically.
+- Preserve uncertainty and source attribution.
+- Avoid generating defamatory, unsafe, or unsupported claims.
+- Make generated transformations and their source context visible to reviewers.
+- Require normal open-source review, testing, and approval for generated code.
+- Evaluate provider behavior across representative missions and contributor
+  experience levels.
 
 ---
 
@@ -877,8 +951,9 @@ ProblemSpot may receive sensitive information about individuals, schools, busine
 - Target a page-load experience suitable for mobile devices and limited bandwidth.
 - Paginate large problem lists.
 - Cache safe, non-sensitive public data where appropriate.
-- Run expensive AI tasks asynchronously when necessary.
-- Ensure ordinary reporting and voting remain usable during AI outages.
+- Run expensive Solution Lab tasks asynchronously when necessary.
+- Ensure reporting, validation, and manual solution collaboration remain usable
+  during provider outages.
 
 ### Accessibility
 
@@ -894,7 +969,7 @@ ProblemSpot may receive sensitive information about individuals, schools, busine
 
 - Use database transactions for vote changes.
 - Provide clear error messages and retry paths.
-- Monitor server errors and failed AI jobs.
+- Monitor server errors and failed Solution Lab jobs.
 - Back up important production data.
 - Test migration and recovery procedures.
 
@@ -902,7 +977,7 @@ ProblemSpot may receive sensitive information about individuals, schools, busine
 
 - Start with a modular monolith.
 - Use indexed database queries.
-- Separate asynchronous AI workloads from critical user requests.
+- Separate Solution Lab workloads from critical user requests.
 - Avoid premature microservices and expensive infrastructure.
 - Reassess architecture based on actual usage.
 
@@ -912,8 +987,8 @@ ProblemSpot may receive sensitive information about individuals, schools, busine
 - Require automated checks for pull requests.
 - Maintain database migrations in version control.
 - Provide setup instructions for local development.
-- Document model setup and evaluation.
-- Keep AI provider integrations replaceable.
+- Document Solution Lab provider setup, safeguards, and evaluation.
+- Keep model and coding-agent integrations replaceable.
 
 ---
 
@@ -930,14 +1005,14 @@ The initial success criteria should measure useful participation and outcomes ra
 - Number of evidence-supported reports.
 - Percentage of users returning to participate.
 
-### AI metrics
+### Solution Lab metrics
 
-- Classification performance on the evaluation dataset.
-- Duplicate-detection precision and recall.
-- Human acceptance rate for AI suggestions.
-- AI processing latency.
-- AI cost per analyzed report.
-- Percentage of submissions successfully processed.
+- Percentage of validated missions that voluntarily use the Solution Lab.
+- Contributor acceptance, edit, and rejection rates for generated artifacts.
+- Time from validated mission to first well-scoped contributor task.
+- Unsupported-claim and sensitive-data exposure rates.
+- Provider latency and cost per Solution Lab run.
+- Percentage of runs completed successfully without blocking manual work.
 
 ### Solution metrics
 
@@ -965,7 +1040,8 @@ These are proposed planning targets, not existing performance figures:
 - At least 10 solution proposals.
 - At least 3 projects entering active development.
 - At least 1 solution reaching a documented pilot outcome.
-- A human-reviewed test set for all AI tasks enabled in production.
+- A human-reviewed evaluation set for every Solution Lab task enabled in
+  production.
 
 Targets should be revised after the first pilot based on actual usage and available resources.
 
@@ -1004,32 +1080,35 @@ Targets should be revised after the first pilot based on actual usage and availa
 
 **Deliverable:** Community members can validate reports and see their contribution histories.
 
-### Phase 4: AI Integration
-
-- Evaluate candidate open-weight models.
-- Implement categorization.
-- Add semantic duplicate detection.
-- Implement report summarization.
-- Build the AI evaluation dataset.
-- Document model requirements and licensing.
-
-**Deliverable:** A working AI-assisted problem analysis pipeline.
-
-### Phase 5: Recognition and Solutions
+### Phase 4: Open-Source Missions and Solutions
 
 - Add badges and contribution history.
+- Convert validated problems into contributor-ready mission workspaces.
 - Implement solution proposals.
-- Add implementation milestones.
+- Add teams, repositories, issues, milestones, and community testing feedback.
 - Record evidence for impact claims.
 - Add basic notifications.
 
-**Deliverable:** Contributors can collaborate and receive recognition.
+**Deliverable:** Contributors can build solutions collaboratively and receive
+recognition for meaningful work.
+
+### Phase 5: Optional AI Solution Lab
+
+- Implement the validated-problem authorization gate.
+- Evaluate candidate models and coding-agent providers.
+- Add solution-brief, approach-exploration, and task-planning workflows.
+- Add provider disclosures, audit records, data minimization, and failure paths.
+- Build the Solution Lab evaluation set.
+- Document provider requirements, licensing, data handling, and limitations.
+
+**Deliverable:** Authorized contributors can optionally use reviewed AI and
+coding-agent assistance without affecting reporting or validation.
 
 ### Phase 6: Pilot and Release
 
 - Conduct security and accessibility testing.
 - Run user acceptance testing.
-- Evaluate model quality.
+- Evaluate the Solution Lab on validated missions if it is enabled.
 - Publish setup instructions and deployment documentation.
 - Collect pilot feedback.
 - Resolve critical issues before public launch.
@@ -1062,23 +1141,24 @@ ProblemSpot should make it easy for contributors with different skill levels to 
 
 ### Advanced issues
 
-- Integrate an open-weight model.
-- Develop semantic duplicate detection.
-- Create AI evaluation benchmarks.
-- Implement asynchronous inference jobs.
-- Improve multilingual performance.
+- Build GitHub repository, issue, and pull-request integrations.
+- Implement the validated-problem gate for Solution Lab requests.
+- Integrate a replaceable model or coding-agent provider.
+- Create Solution Lab evaluation benchmarks.
+- Implement asynchronous Solution Lab jobs and audit records.
 - Build privacy-preserving analytics.
 
-### AI challenge deliverables
+### Solution Lab challenge deliverables
 
-To demonstrate meaningful open-source AI work, publish:
+To demonstrate meaningful, responsible AI and coding-agent work, publish:
 
-- The selected model and its license or terms.
-- Hardware and runtime requirements.
-- Setup and inference instructions.
+- The provider, model or agent, and applicable license or terms.
+- Hosting and runtime requirements.
+- Setup and integration instructions.
+- The validated-problem access-control design.
 - Evaluation methodology and results.
 - Known limitations and failure cases.
-- Example inputs and outputs.
+- Example solution-building inputs and reviewed outputs.
 - A documented way to reproduce the results.
 
 Use clear GitHub issue labels, including `good first issue`, `documentation`, `frontend`, `backend`, `ai`, `security`, and `testing`.
@@ -1101,7 +1181,8 @@ Select a recognized open-source license before inviting contributions.
 
 The maintainers should choose the license that best fits the project's goals.
 
-The software license does not automatically determine the license for every dataset, uploaded image, AI model, or other third-party asset.
+The software license does not automatically determine the license for every
+dataset, uploaded image, model, coding agent, or other third-party asset.
 
 ### Community documentation
 
@@ -1114,7 +1195,7 @@ The repository should include:
 - `SECURITY.md`
 - `docs/PRD.md`
 - `docs/ARCHITECTURE.md`
-- `docs/AI_MODEL_CARD.md`
+- `docs/SOLUTION_LAB_POLICY.md`
 - `docs/MODERATION_POLICY.md`
 
 ### Contribution principles
@@ -1134,15 +1215,15 @@ The repository should include:
 |---|---|
 | Fake reports | Moderation, evidence, rate limiting, and community review. |
 | Vote manipulation | Unique vote constraints, abuse detection, and review. |
-| Duplicate reports | AI-assisted similarity detection and human-approved merging. |
-| AI hallucinations | Preserve source content and require review for important decisions. |
+| Duplicate reports | Search, community flags, and human-approved merging. |
+| Generated mistakes | Gate the Solution Lab to validated missions, preserve source context, and require review of all output and code. |
 | Low participation | Mobile-friendly UX, community partnerships, and clear calls to action. |
 | Sensitive submissions | Privacy controls, restricted access, and clear reporting policies. |
-| AI infrastructure costs | Evaluate smaller models and use asynchronous processing. |
+| Solution Lab costs | Keep the lab optional, set quotas, use asynchronous processing, and compare providers. |
 | Unimplemented problems | Track solution proposals and publish progress transparently. |
 | Misleading impact claims | Require evidence and distinguish self-reported from verified outcomes. |
 | Contributor burnout | Small, well-defined issues and clear contribution documentation. |
-| Model licensing conflicts | Verify and document model-specific terms before deployment. |
+| Provider licensing or data conflicts | Verify and document provider, model, coding-agent, and data-handling terms before deployment. |
 
 ---
 
@@ -1155,14 +1236,18 @@ The MVP is ready for an initial public pilot when:
 3. Community members can confirm personal experience or express support.
 4. Duplicate voting is prevented by database constraints.
 5. Reports have documented validation statuses.
-6. AI can categorize reports and identify candidate duplicates using a documented model.
-7. AI failures do not block normal platform operations.
+6. Categories, duplicate review, moderation, and validation work without AI.
+7. A validated problem can become a contributor-ready open-source mission.
 8. Users have Community Impact Profiles with accurate contribution records.
 9. Authorized moderators can review reports and manage inappropriate content.
-10. Contributors can propose solutions and track implementation status.
-11. The repository includes licensing, contribution, security, and setup documentation.
-12. Automated tests cover critical submission, voting, permission, and AI integration workflows.
-13. The team has documented known limitations and verified the selected model's terms.
+10. Contributors can propose solutions, collaborate through linked repositories,
+    and track implementation status.
+11. If enabled, the Solution Lab rejects unvalidated problems and remains
+    optional for all collaboration workflows.
+12. The repository includes licensing, contribution, security, moderation, and
+    setup documentation.
+13. Automated tests cover critical submission, voting, permission, validation,
+    solution-collaboration, and Solution Lab gate workflows.
 
 ---
 
@@ -1177,7 +1262,7 @@ Potential future directions include:
 - Partnerships with universities, local organizations, and NGOs.
 - Public-interest open datasets with appropriate privacy protections.
 - Developer matching and collaborative project workspaces.
-- AI-assisted feasibility analysis.
+- Optional Solution Lab assistance for feasibility exploration and work planning.
 - Integration with open-source repositories and development workflows.
 - Verified impact reports showing which solutions improved people's lives.
 
@@ -1187,9 +1272,13 @@ The long-term objective is not simply to collect thousands of problem reports. I
 
 ## 20. Final Product Definition
 
-**ProblemSpot is an open-source, AI-powered platform that enables communities to report and validate real-world problems, helps contributors discover opportunities for innovation, and tracks the progress and impact of solutions.**
+**ProblemSpot is an open-source platform that enables communities to report and
+validate real-world problems, turns validated needs into collaborative missions,
+and tracks the progress and impact of solutions.**
 
-It combines community participation, responsible AI, open-source collaboration, and contributor recognition in one platform.
+It combines community participation, human validation, open-source
+collaboration, contributor recognition, and an optional AI Solution Lab for
+validated problems in one platform.
 
 **Product promise:** Every community deserves a way to make its challenges visible, and every person should have an opportunity to help create solutions.
 

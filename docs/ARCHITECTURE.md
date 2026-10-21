@@ -6,8 +6,8 @@
 **Repository:** `problemspot`\
 **Primary stack:** Next.js, TypeScript, Supabase, PostgreSQL, Supabase
 Auth, Supabase Storage\
-**AI runtime:** Gemma 4 through a separate inference service (initially
-an Arduino UNO Q)
+**Optional Solution Lab:** Replaceable AI or coding-agent provider, gated to
+validated problems
 
 ## 1. Purpose
 
@@ -15,18 +15,19 @@ This document defines the proposed application architecture, service
 boundaries, data model, database relationships, security model, and key
 data flows for ProblemSpot.
 
-ProblemSpot lets people report real-world community problems, confirm
-whether they experience them, provide evidence, propose solutions, and
-track outcomes. AI assists with organizing reports and finding related
-problems; it does not determine truth or replace community and human
-review.
+ProblemSpot lets people report real-world community problems, confirm whether
+they experience them, provide evidence, validate needs through accountable
+human review, turn validated problems into open-source missions, propose
+solutions, and track outcomes. AI and coding agents are excluded from problem
+reporting and validation. They may optionally assist contributors inside the
+Solution Lab after a problem has been validated.
 
 ## 2. Architecture principles
 
-1.  **Community first:** reports and votes must work even when AI is
-    unavailable.
-2.  **AI is advisory:** generated classifications, summaries, and
-    duplicate suggestions are suggestions, not verified facts.
+1.  **Community first:** reporting, categorization, discovery, voting,
+    evidence, moderation, and validation are human-led and AI-independent.
+2.  **Validate before building:** Solution Lab access requires a validated
+    problem and approved mission context.
 3.  **Database-enforced integrity:** important rules such as one active
     vote per user per problem are enforced by PostgreSQL constraints,
     not only by UI logic.
@@ -40,8 +41,9 @@ review.
 7.  **Modular monolith first:** start with a single Next.js application
     and clear feature modules; split services only when there is a
     demonstrated need.
-8.  **Portable AI:** use an internal AI adapter so the model provider or
-    runtime can be changed without rewriting product features.
+8.  **Optional and portable assistance:** keep the Solution Lab behind an
+    internal adapter so providers can be changed or disabled without affecting
+    reporting, validation, or manual solution collaboration.
 
 ## 3. High-level architecture
 
@@ -53,9 +55,10 @@ flowchart TD
     API --> DB[(Supabase PostgreSQL)]
     API --> STORAGE[Supabase Storage]
     DB --> RLS[PostgreSQL constraints, policies and RLS]
-    API --> AI[ProblemSpot AI adapter]
-    AI --> GEMMA[Gemma 4 inference service]
-    GEMMA --> UNO[Arduino UNO Q or another secured host]
+    DB --> GATE{Problem validated?}
+    API --> GATE
+    GATE -->|Yes| LAB[Optional AI Solution Lab]
+    LAB --> AGENT[Model or coding-agent provider]
     API --> NOTIFY[Notification worker / email provider]
     API --> OBS[Logs and monitoring]
 ```
@@ -72,15 +75,15 @@ flowchart TD
 -   **Supabase Storage:** controlled storage for uploaded evidence and
     avatars.
 -   **Next.js server layer:** validates requests, checks authorization,
-    coordinates database operations, and calls AI services.
--   **AI adapter:** exposes stable product-level operations such as
-    categorization, summarization, and duplicate suggestions.
--   **Gemma 4 inference service:** runs the selected model locally on
-    the UNO Q during development/pilot, or on a suitably resourced
-    private host for production.
--   **Background processing:** optional jobs for AI analysis,
-    notifications, and maintenance. Do not make report submission depend
-    on successful AI inference.
+    coordinates database operations, and enforces the validated-problem gate.
+-   **Solution Lab adapter:** exposes stable, solution-stage operations such as
+    drafting briefs, comparing approaches, planning milestones, preparing
+    GitHub issues, and assisting with reviewed repository work.
+-   **Model or coding-agent provider:** runs only on approved mission context
+    after authorization. It is never part of submission or validation.
+-   **Background processing:** optional jobs for Solution Lab runs,
+    notifications, and maintenance. Manual solution collaboration must not
+    depend on successful provider execution.
 
 ## 4. Suggested code organization
 
@@ -95,7 +98,7 @@ problemspot/
 │   ├── dashboard/
 │   ├── admin/
 │   └── api/
-│       ├── ai/
+│       ├── solution-lab/
 │       ├── problems/
 │       └── webhooks/
 ├── components/
@@ -108,7 +111,7 @@ problemspot/
 │   ├── submissions/
 │   ├── validation/
 │   ├── voting/
-│   ├── ai-analysis/
+│   ├── solution-lab/
 │   ├── solutions/
 │   └── impact/
 ├── lib/
@@ -119,8 +122,9 @@ problemspot/
 │   ├── auth/
 │   ├── permissions/
 │   ├── schemas/
-│   ├── ai/
+│   ├── solution-lab/
 │   │   ├── adapter.ts
+│   │   ├── authorization.ts
 │   │   └── providers/
 │   └── audit/
 ├── supabase/
@@ -205,8 +209,8 @@ employment, public services, technology and connectivity, and other.
 -   `published_at timestamptz`
 
 Use a database check constraint for allowed `status`, `severity`, and
-`frequency` values. Do not store AI output in the original `title` or
-`description`; AI-generated fields belong in analysis records.
+`frequency` values. Original reports must never be overwritten by moderator
+notes, mission briefs, or Solution Lab output.
 
 #### `problem_votes`
 
@@ -268,16 +272,15 @@ cannot fabricate history.
 -   `related_problem_id uuid not null references problems(id) on delete cascade`
 -   `relation_type text not null` --- for example `possible_duplicate`,
     `related`, or `merged_into`
--   `source text not null default 'human'` --- `human` or `ai`
--   `confidence numeric` (optional; for AI suggestions only)
+-   `source text not null default 'human'`
 -   `review_status text not null default 'pending'`
 -   `reviewed_by uuid references profiles(id) on delete set null`
 -   `created_at timestamptz not null default now()`
 -   `check (problem_id <> related_problem_id)`
 
 Add a uniqueness rule for the canonical ordered pair and relation type,
-or normalize pair ordering in trusted code. AI suggestions must not
-automatically merge reports.
+or normalize pair ordering in trusted code. Only authorized human reviewers
+may approve or merge related reports.
 
 #### `solutions`
 
@@ -357,13 +360,14 @@ community-reviewed or independently reviewed outcome.
 Use an appropriate uniqueness policy to prevent duplicate active awards
 when a badge is intended to be awarded only once.
 
-#### `ai_analyses`
+#### `solution_lab_runs` (optional)
 
 -   `id uuid primary key`
 -   `problem_id uuid not null references problems(id) on delete cascade`
+-   `solution_id uuid references solutions(id) on delete cascade`
 -   `requested_by uuid references profiles(id) on delete set null`
--   `task_type text not null` --- `categorize`, `summarize`,
-    `duplicate_candidates`, or `problem_brief`
+-   `task_type text not null` --- `solution_brief`, `approach_options`,
+    `work_plan`, `repository_assistance`, or `feedback_summary`
 -   `provider text not null`
 -   `model_id text not null`
 -   `model_version text`
@@ -375,8 +379,10 @@ when a badge is intended to be awarded only once.
 -   `created_at timestamptz not null default now()`
 -   `completed_at timestamptz`
 
-Avoid retaining sensitive raw prompts unless necessary. Store only the
-data needed for debugging, reproducibility, and evaluation.
+The server must confirm that the referenced problem is `verified` before
+creating a run. Avoid retaining sensitive raw prompts unless necessary. Store
+only the approved mission context and metadata needed for review,
+reproducibility, and evaluation.
 
 #### `moderation_actions`
 
@@ -426,7 +432,8 @@ erDiagram
     SOLUTIONS ||--o{ IMPACT_ASSESSMENTS : measures
     PROFILES ||--o{ BADGE_AWARDS : earns
     BADGES ||--o{ BADGE_AWARDS : awards
-    PROBLEMS ||--o{ AI_ANALYSES : analyzes
+    PROBLEMS ||--o{ SOLUTION_LAB_RUNS : enables_after_validation
+    SOLUTIONS ||--o{ SOLUTION_LAB_RUNS : assists
     PROFILES ||--o{ NOTIFICATIONS : receives
 ```
 
@@ -453,14 +460,14 @@ Recommended environment variables:
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
-GEMMA_BASE_URL=
-GEMMA_API_TOKEN=
+SOLUTION_LAB_PROVIDER=
+SOLUTION_LAB_API_TOKEN=
 ```
 
 Only expose the first two to the browser. Keep the remaining variables
-server-side. If the AI service is accessible only through a private
-network, configure the server-to-server URL and authentication
-accordingly.
+server-side. The Solution Lab token must never reach the browser. Configure
+provider authentication, retention, and data-sharing controls according to the
+published Solution Lab policy.
 
 ### 7.2 RLS policy intent
 
@@ -536,8 +543,9 @@ reviewed and tested in migrations.
                                      apply; only trusted code/admins
                                      can award or revoke badges.
 
-  `ai_analyses`                      Only authorized users and server
-                                     operations can access analyses;
+  `solution_lab_runs`                Only authorized contributors and server
+                                     operations can access runs; the related
+                                     problem must be validated;
                                      public access should expose only
                                      approved, non-sensitive outputs.
 
@@ -584,10 +592,10 @@ users to grant themselves moderator privileges by editing their profile.
 4.  PostgreSQL stores the problem with status `submitted`.
 5.  A status-history row is created through trusted logic.
 6.  The UI confirms receipt.
-7.  AI analysis may run asynchronously and update a separate analysis
-    record.
-8.  The user can review AI suggestions without losing the original
-    report.
+7.  Other users can discover, follow, confirm, support, and add evidence
+    according to policy.
+8.  Human reviewers categorize the report, resolve duplicates, and manage
+    validation status.
 
 ### 8.2 Voting
 
@@ -598,19 +606,34 @@ users to grant themselves moderator privileges by editing their profile.
 5.  The UI displays counts derived from trusted database state.
 6.  Suspicious activity may be flagged for review.
 
-### 8.3 AI analysis
+### 8.3 Validation and mission handoff
 
-1.  A server-side operation creates an `ai_analyses` row with `pending`
-    status.
-2.  The AI adapter sends the minimum necessary report text to the
-    configured model service.
-3.  The model returns a category, summary, or duplicate candidates.
-4.  The server validates the response schema.
-5.  The analysis record is updated with the result or a sanitized error.
-6.  A user or reviewer can accept, correct, or reject the suggestion.
-7.  AI results never automatically establish factual verification.
+1.  An authorized human reviewer examines the report and approved evidence.
+2.  The reviewer records a reason for validation, rejection, merging, or a
+    request for more information.
+3.  PostgreSQL records the status transition and audit history.
+4.  When the status becomes `verified`, the application creates or unlocks an
+    open-source mission workspace.
+5.  Contributors can review the mission context and collaborate manually.
 
-### 8.4 Solution and impact
+### 8.4 Optional Solution Lab
+
+1.  An authorized contributor requests a solution-stage task.
+2.  The server verifies that the related problem is `verified` and that the
+    requester may access every included source.
+3.  A `solution_lab_runs` row is created with `pending` status.
+4.  The adapter sends only the minimum approved mission context to the selected
+    model or coding-agent provider.
+5.  The provider returns a draft brief, approach comparison, work plan,
+    repository artifact, or feedback summary.
+6.  The server validates the response shape and records the result or a
+    sanitized error.
+7.  Contributors review, edit, accept, or discard the output through ordinary
+    open-source workflows.
+8.  Generated output never changes problem status, accepts a solution, merges
+    code, or establishes impact automatically.
+
+### 8.5 Solution and impact
 
 1.  A contributor proposes a solution for a problem.
 2.  The solution is reviewed and collaborators are added.
@@ -623,7 +646,8 @@ users to grant themselves moderator privileges by editing their profile.
 ## 9. API and service boundaries
 
 Use Next.js Route Handlers or Server Actions for application operations.
-Keep the AI adapter separate from feature code.
+Keep the optional Solution Lab adapter separate from reporting, moderation,
+validation, and solution-domain code.
 
 Suggested routes:
 
@@ -647,13 +671,10 @@ Suggested routes:
 
   `POST`               `/api/problems/[id]/solutions`   Propose a solution
 
-  `POST`               `/api/ai/categorize`             Request a category
-                                                        suggestion
-
-  `POST`               `/api/ai/summarize`              Request a summary
-
-  `POST`               `/api/ai/duplicate-candidates`   Find possible
-                                                        duplicate reports
+  `POST`               `/api/missions/[id]/solution-lab` Request an optional
+                                                        solution-stage task;
+                                                        requires a validated
+                                                        problem
 
   `POST`               `/api/reports`                   Report content for
                                                         moderation
@@ -663,44 +684,42 @@ Routes are illustrative. Validate payloads, authorize every action,
 return consistent error shapes, and apply rate limits to sensitive or
 expensive endpoints.
 
-## 10. Arduino UNO Q and Gemma 4 integration
+## 10. AI Solution Lab integration
 
-The UNO Q is a development/pilot inference host, not the system of
-record. PostgreSQL and Supabase remain authoritative for reports, votes,
-users, and validation status.
+The Solution Lab is an optional contributor tool, not the system of record.
+PostgreSQL and Supabase remain authoritative for reports, votes, evidence,
+validation, solutions, milestones, and impact assessments.
 
-Recommended approach:
+Required controls:
 
--   Run Gemma 4 through a compatible inference runtime on the Linux side
-    of the UNO Q.
--   Expose model inference only to trusted server-side callers.
--   Place an authenticated AI adapter between Next.js and the model
-    runtime.
--   Use request timeouts, payload limits, and concurrency limits.
--   Keep a fallback response for model unavailability.
--   Do not expose an unauthenticated model endpoint to the public
-    internet.
--   For a hosted production service, connect to the UNO Q through a
-    private VPN or secure gateway; a local `127.0.0.1` endpoint is not
-    reachable from Vercel.
--   Measure actual RAM, latency, temperature, and throughput on the
-    board before promising production capacity.
--   Do not assume the UNO Q can handle simultaneous inference for many
-    public users.
+-   Verify `problems.status = 'verified'` in trusted server-side code before
+    creating every Solution Lab run.
+-   Verify the requester can access the mission, solution, and included
+    evidence.
+-   Send only approved, minimum-necessary context to the provider.
+-   Place a provider-independent adapter between application code and any
+    model or coding agent.
+-   Apply request timeouts, payload limits, quotas, and concurrency limits.
+-   Record provider, model or agent version, requester, task, source-context
+    hash, status, and reviewed output.
+-   Keep a manual workflow and clear fallback when the provider is unavailable.
+-   Do not expose an unauthenticated provider endpoint to the public internet.
+-   Require pull-request review, automated tests, and maintainer approval for
+    generated code.
+-   Never allow an agent to merge code, change validation status, accept a
+    solution, message affected users, or publish impact claims autonomously.
 
-If the board is offline, core submission, voting, and browsing should
-continue where network connectivity to Supabase exists; AI assistance
-can be queued or temporarily unavailable. Fully offline use of the
-entire platform would require a separate local persistence and
-synchronization design.
+The selected provider may be self-hosted or managed. The team must evaluate
+licensing, data retention, privacy, cost, latency, output quality, and
+reproducibility before production use.
 
 ## 11. Observability and operations
 
 Track: - API errors and latency. - Database errors and slow queries. -
-AI latency, failures, model version, and token/output limits where
-available. - Queue backlog and retry counts if background jobs are
-used. - Moderation activity and security-relevant events. - Storage
-failures and upload rejections.
+Solution Lab gate denials, latency, failures, provider and model or agent
+version, and output limits where available. - Queue backlog and retry counts if
+background jobs are used. - Moderation activity and security-relevant events.
+- Storage failures and upload rejections.
 
 Avoid logging passwords, access tokens, private evidence, or unnecessary
 personal data. Set retention limits and review access to production
@@ -708,20 +727,20 @@ logs.
 
 ## 12. Testing strategy
 
--   **Unit tests:** validation schemas, permissions, AI output parsing,
-    status transitions.
+-   **Unit tests:** validation schemas, permissions, status transitions,
+    Solution Lab gate enforcement, and output parsing.
 -   **Database tests:** constraints, foreign keys, vote uniqueness, RLS
     policy behavior.
--   **Integration tests:** authenticated submissions, votes, evidence
-    uploads, AI failures.
+-   **Integration tests:** authenticated submissions, votes, evidence uploads,
+    human validation, manual solution collaboration, and Solution Lab failures.
 -   **End-to-end tests:** submit a report, confirm it from another
     account, propose a solution, and review a milestone.
 -   **Security tests:** unauthenticated writes, cross-user access,
     moderator escalation, private storage access.
--   **AI evaluation:** classification quality, duplicate-detection
-    precision/recall, summary factuality, and language coverage.
--   **Resilience tests:** model server unavailable, timeouts, malformed
-    model output, and database errors.
+-   **Solution Lab evaluation:** faithfulness to validated context, usefulness,
+    unsupported-claim rate, edit rate, safety, and task quality.
+-   **Resilience tests:** provider unavailable, timeouts, malformed output,
+    authorization bypass attempts, and database errors.
 
 Use separate development and production Supabase projects. Apply schema
 changes through version-controlled migrations, not undocumented manual
@@ -733,21 +752,21 @@ production edits.
 
 -   Local Next.js application.
 -   Local Supabase CLI stack or dedicated development Supabase project.
--   Test data and mock AI responses.
--   UNO Q accessible on a private development network.
+-   Test data and mock Solution Lab responses.
 
 ### Staging
 
 -   Separate Supabase project.
 -   Preview deployment.
 -   Restricted test accounts and non-sensitive test reports.
--   AI endpoint protected by authentication.
+-   Solution Lab endpoint protected by authentication, authorization, and the
+    validated-problem gate.
 
 ### Production
 
 -   Production Supabase project with RLS and backups configured.
 -   Next.js deployment with server-side secrets.
--   Private or authenticated AI inference connection.
+-   Optional authenticated Solution Lab provider connection.
 -   Monitoring, rate limiting, security reporting, and tested recovery
     procedures.
 
@@ -763,14 +782,14 @@ production edits.
   Next.js modular monolith           Simple to deploy and maintain
                                      during MVP development.
 
-  Separate AI adapter                Makes model/runtime replacement
-                                     and testing easier.
+  Separate Solution Lab adapter      Makes providers replaceable and keeps
+                                     generated work out of core workflows.
 
   Votes stored as rows               Provides auditability and reliable
                                      uniqueness enforcement.
 
-  Separate AI analysis records       Preserves original user content
-                                     and model output provenance.
+  Separate Solution Lab run records  Preserves source content and generated
+                                     output provenance.
 
   Separate status history            Makes validation decisions
                                      traceable.
@@ -778,9 +797,8 @@ production edits.
   Private evidence storage           Reduces accidental exposure of
                                      sensitive material.
 
-  Human-reviewed verification        Community popularity and model
-                                     predictions are not proof of
-                                     truth.
+  Human-reviewed verification        Community popularity and generated output
+                                     are not proof of truth.
   ---------------------------------------------------------------------
 
 ## 15. Implementation order
@@ -795,10 +813,12 @@ production edits.
 6.  Add evidence storage and moderation workflows.
 7.  Add solutions, contributors, milestones, and impact assessments.
 8.  Add badges and notifications.
-9.  Implement the AI adapter and `ai_analyses` table.
-10. Connect the UNO Q inference endpoint securely and evaluate model
-    quality.
-11. Run security, accessibility, and end-to-end tests before the pilot.
+9.  Add validated-problem mission workspaces and GitHub-linked collaboration.
+10. Optionally implement the Solution Lab adapter, validated-problem gate, and
+    `solution_lab_runs` table.
+11. Evaluate the selected provider and coding-agent safeguards on validated
+    mission test cases.
+12. Run security, accessibility, and end-to-end tests before the pilot.
 
 ## 16. Open decisions
 
@@ -811,10 +831,11 @@ Resolve these before production:
     the same report?
 -   Which geographic fields are necessary, and how will precise
     coordinates be protected?
--   Which Gemma 4 runtime and model variant will be supported on the UNO
-    Q?
--   Will AI inference run only on the local board, or also on a more
-    capable private host?
+-   Which validated status and contributor roles unlock the Solution Lab?
+-   Which Solution Lab provider or self-hosted model meets privacy, licensing,
+    cost, and quality requirements?
+-   Which GitHub permissions may a coding agent receive, and which actions must
+    always require human approval?
 -   What evidence is required before a solution can be marked as having
     verified impact?
 -   Who can moderate reports, award badges, and approve status
@@ -825,9 +846,9 @@ architecture decision records.
 
 ------------------------------------------------------------------------
 
-**Summary:** ProblemSpot uses Next.js for the application, Supabase for
-identity, relational data, storage, and access control, and a
-replaceable AI adapter for Gemma 4 inference. PostgreSQL constraints and
-RLS protect voting integrity and user data; review history preserves
-trust; and contributor profiles connect community problem reporting to
-real-world impact.
+**Summary:** ProblemSpot uses Next.js for the application and Supabase for
+identity, relational data, storage, and access control. PostgreSQL constraints,
+RLS, and human review protect voting integrity, validation, and user data.
+Validated problems become open-source missions. A replaceable AI Solution Lab
+may assist authorized contributors after validation, while manual
+collaboration, review, and impact assessment remain authoritative.

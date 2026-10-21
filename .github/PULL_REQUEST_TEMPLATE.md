@@ -36,13 +36,14 @@ Testing notes:
 
 <!-- Add screenshots or recordings for visual changes. Write "N/A" if not applicable. -->
 
-## Data, privacy, and AI considerations
+## Data, privacy, and Solution Lab considerations
 
 - [ ] No database changes
 - [ ] Database migrations included and tested, if applicable
 - [ ] RLS and authorization behavior reviewed, if applicable
 - [ ] No secrets or private community data included
-- [ ] AI output remains advisory and does not independently verify community problems, if applicable
+- [ ] Solution Lab changes enforce the validated-problem gate, if applicable
+- [ ] Generated output remains advisory and follows normal review and testing, if applicable
 - [ ] Documentation updated where needed
 
 ## Contributor checklist

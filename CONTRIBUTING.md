@@ -15,7 +15,7 @@ Please read this guide before opening an issue or pull request.
 - [Contribution Workflow](#contribution-workflow)
 - [Code and Documentation Guidelines](#code-and-documentation-guidelines)
 - [Testing and Quality Checks](#testing-and-quality-checks)
-- [AI and Community Validation](#ai-and-community-validation)
+- [Solution Lab and Community Validation](#solution-lab-and-community-validation)
 - [Security and Privacy](#security-and-privacy)
 - [Issues and Pull Requests](#issues-and-pull-requests)
 - [Community Expectations](#community-expectations)
@@ -28,7 +28,8 @@ ProblemSpot is built around these principles:
 2. **Evidence over assumptions:** Make it easy to provide context and supporting evidence without requiring people to expose private information.
 3. **Human validation:** Community support is a signal, not automatic proof that a problem is verified.
 4. **Inclusive participation:** Contributions from people with different skill levels, backgrounds, and abilities are welcome.
-5. **Transparency:** Explain important status changes, AI-assisted decisions, and moderation actions clearly.
+5. **Transparency:** Explain important status changes, validation decisions,
+   generated solution artifacts, and moderation actions clearly.
 6. **Privacy and safety:** Collect only the information needed and handle sensitive reports responsibly.
 7. **Open collaboration:** Prefer clear documentation, reviewable changes, and constructive discussion.
 
@@ -41,7 +42,8 @@ You do not need to be a software developer to contribute.
 - **Community validation:** Confirm that you experience a problem, support addressing it, or provide relevant evidence.
 - **Design and accessibility:** Improve usability, responsive layouts, accessibility, and user research.
 - **Frontend and backend development:** Build features, fix bugs, and improve performance.
-- **AI and data:** Improve categorization, summarization, duplicate suggestions, evaluation datasets, and model integration.
+- **Solution Lab and data:** Improve the optional, post-validation Solution Lab,
+  coding-agent safeguards, evaluation sets, and provider integration.
 - **Documentation:** Improve setup instructions, guides, API documentation, and examples.
 - **Testing and quality assurance:** Reproduce bugs, write tests, and test edge cases.
 - **Community support:** Help newcomers, review issues, and provide constructive feedback.
@@ -51,7 +53,8 @@ If you are new to the project, look for issues marked `good first issue` or `hel
 ## Before You Start
 
 1. Read the project [README](README.md) to understand the product and setup.
-2. Review [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) before changing application structure, database design, or AI integration.
+2. Review [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) before changing
+   application structure, database design, validation, or Solution Lab integration.
 3. Search existing issues and pull requests to avoid duplicating work.
 4. For a significant feature or architectural change, open an issue first so the approach can be discussed.
 5. Never publish secrets, private user information, or real-world evidence that you do not have permission to share.
@@ -60,7 +63,10 @@ If you are unsure whether an idea fits the project, open an issue with the probl
 
 ## Development Setup
 
-ProblemSpot is planned around a modular Next.js application with TypeScript and Supabase. AI inference is designed to sit behind a separate, configurable service; the application should not depend on a specific inference device being available during ordinary development.
+ProblemSpot is planned around a modular Next.js application with TypeScript and
+Supabase. The optional AI Solution Lab sits behind a separate, configurable
+service and a validated-problem gate. Reporting, moderation, validation, and
+manual solution collaboration must not depend on a model or coding agent.
 
 ### Prerequisites
 
@@ -108,8 +114,8 @@ Create a local environment file using the variable names documented in `README.m
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
-GEMMA_BASE_URL=
-GEMMA_API_TOKEN=
+SOLUTION_LAB_PROVIDER=
+SOLUTION_LAB_API_TOKEN=
 ```
 
 Only configure variables required for the feature you are working on. Use local or development credentials, never production credentials.
@@ -117,7 +123,9 @@ Only configure variables required for the feature you are working on. Use local 
 **Security requirements:**
 
 - Never commit `.env`, `.env.local`, access tokens, private keys, or service credentials.
-- Keep `SUPABASE_SERVICE_ROLE_KEY` and AI service tokens on the server only.
+- Keep `SUPABASE_SERVICE_ROLE_KEY` and `SOLUTION_LAB_API_TOKEN` on the server
+  only. The Solution Lab is optional and may be used only for validated
+  problems.
 - Variables prefixed with `NEXT_PUBLIC_` are exposed to the browser; never put secrets in them.
 - Do not disable Row Level Security (RLS) as a shortcut to make a feature work.
 
@@ -241,18 +249,25 @@ flowchart LR
 - Consider migration safety, rollback implications, and existing data.
 - Update `docs/ARCHITECTURE.md` when a change materially affects the schema, trust boundaries, or data flow.
 
-### AI integration
+### AI Solution Lab integration
 
-AI features may assist with categorization, summarization, and duplicate suggestions. They must not independently declare a problem verified, fabricate evidence, or manipulate community voting.
+AI and coding agents may assist contributors only after a problem has been
+validated. They must not categorize, rank, moderate, validate, approve, reject,
+or verify community reports.
 
-- Keep model calls behind a server-side provider adapter.
-- Treat model output as untrusted input and validate it before use.
-- Make uncertainty and failures visible where they affect the user.
-- Do not send personal or sensitive evidence to a model without an approved, documented reason and appropriate safeguards.
-- Do not make core reporting or community participation unusable when the AI service is unavailable.
-- Add evaluation cases for meaningful changes to prompts, models, or classification logic.
-- Document model name/version, relevant configuration, and known limitations when applicable.
-- Do not hard-code a dependency on Arduino UNO Q or a particular model runtime into general application features.
+- Enforce the validated-problem gate in trusted server-side code.
+- Keep provider calls behind a server-side adapter.
+- Treat generated output as untrusted input and validate it before use.
+- Require human review, tests, and normal pull-request approval for generated code.
+- Make source context, uncertainty, and failures visible where they affect users.
+- Do not send personal or sensitive evidence to a provider without an approved,
+  documented reason and appropriate safeguards.
+- Keep manual solution collaboration usable when the Solution Lab is unavailable.
+- Add evaluation cases for meaningful changes to prompts, models, agents, or tools.
+- Document provider, model or agent version, configuration, data handling, and
+  known limitations.
+- Do not give an agent permission to merge code, change validation status,
+  accept solutions, contact affected people, or publish impact claims autonomously.
 
 ### Documentation
 
@@ -285,14 +300,19 @@ For changes involving Supabase, also verify:
 - Private evidence and moderation actions are not exposed to unauthorized users.
 - Status changes preserve a valid history.
 
-For AI changes, test normal inputs, ambiguous inputs, malformed outputs, duplicate suggestions, and service failures. Never use real private user data as a test fixture.
+For Solution Lab changes, test validated and unvalidated problems, unauthorized
+requesters, malformed output, sensitive-data boundaries, timeouts, and provider
+failures. Never use real private user data as a test fixture.
 
-## AI and Community Validation
+## Solution Lab and Community Validation
 
 ProblemSpot distinguishes **community support** from **verified evidence**. Please preserve this distinction in product logic, copy, and data models.
 
 - A vote or confirmation means a person supports or experiences a problem; it does not by itself prove every claim in the report.
-- AI-generated labels and duplicate suggestions are recommendations for review, not authoritative decisions.
+- AI and coding agents are not part of reporting or validation. The Solution
+  Lab becomes available only after authorized human validation.
+- Generated briefs, plans, issues, documentation, and code are drafts for
+  contributor review, not authoritative decisions.
 - Keep status transitions understandable and auditable.
 - Do not add engagement mechanics that encourage spam, brigading, harassment, or misleading reports.
 - Recognition should reward constructive participation and meaningful impact—not simply the volume of submissions or votes.

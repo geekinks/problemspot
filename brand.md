@@ -11,7 +11,8 @@ This document defines the core visual identity for ProblemSpot so the website, a
 - **Community:** People working together to identify shared challenges.
 - **Trust:** Reports and validation should feel transparent and responsible.
 - **Action:** Help people move from identifying a problem to addressing it.
-- **Intelligence:** AI assists with categorization, summaries, and duplicate suggestions without replacing human judgment.
+- **Open collaboration:** Validated problems become shared missions that people
+  can investigate, design, build, test, and improve together.
 - **Optimism:** Clear, approachable design that focuses on achievable progress.
 
 ### Brand personality
@@ -52,8 +53,8 @@ The primary identity combines **community green** with **intelligence blue**, su
 | `brand-green` | `#168447` | Primary brand color; main buttons, active navigation, links, and positive actions |
 | `brand-green-dark` | `#086B3B` | Darker green for emphasis and high-contrast states |
 | `brand-green-light` | `#F0FDF4` | Soft green backgrounds and subtle highlights |
-| `brand-blue` | `#2563EB` | AI-assisted features, insights, and analytical elements |
-| `brand-blue-light` | `#DBEAFE` | Background for AI or informational labels |
+| `brand-blue` | `#2563EB` | Solution collaboration, links, insights, and informational elements |
+| `brand-blue-light` | `#DBEAFE` | Background for Solution Lab or informational labels |
 | `brand-navy` | `#0F172A` | Primary headings, dark surfaces, and strong text |
 | `brand-slate` | `#475569` | Secondary text and supporting content |
 | `brand-white` | `#FFFFFF` | Cards, text on dark surfaces, and clean space |
@@ -83,7 +84,10 @@ As a starting point for most screens:
 - **20%** text, borders, and slate neutrals
 - **10%** brand green and blue accents
 
-Green should lead the product identity. Blue is an accent for AI-specific functionality, not a competing primary brand color. Avoid using large saturated green and blue areas side by side.
+Green should lead the product identity. Blue is an accent for solution
+collaboration, informational elements, and the optional AI Solution Lab—not a
+competing primary brand color. Avoid using large saturated green and blue areas
+side by side.
 
 ## 4. Typography
 
@@ -128,7 +132,8 @@ Use a comfortable body line height, typically around `1.5`. Avoid long passages 
 
 - **Primary:** `#168447` background with white text.
 - **Secondary:** White background with navy text and a neutral border.
-- **AI action:** Use blue for clearly AI-specific actions, such as “Generate summary,” without implying the result is authoritative.
+- **Solution Lab action:** Use blue for optional post-validation actions such as
+  “Draft solution brief,” without implying that generated output is authoritative.
 - **Destructive:** Use a red treatment for actions that delete data or cause an irreversible change.
 
 Buttons should have visible hover, focus, active, disabled, and loading states. Do not communicate an action through color alone.
@@ -141,12 +146,14 @@ Buttons should have visible hover, focus, active, disabled, and loading states. 
 - Provide success, empty, loading, and error states.
 - Preserve user input when a recoverable submission error occurs.
 
-### AI elements
+### AI Solution Lab elements
 
-- Label AI-generated summaries, classifications, and duplicate suggestions clearly.
-- Use the blue accent sparingly to distinguish AI assistance.
-- Explain when human review is required.
-- Never style an AI suggestion in a way that implies the community has verified the underlying problem.
+- Show Solution Lab actions only for validated problems.
+- Label generated briefs, plans, issues, documentation, and code clearly.
+- Use the blue accent sparingly to distinguish optional assistance.
+- Explain that human review, testing, and approval are required.
+- Never style generated output in a way that implies it validated the problem,
+  selected the accepted solution, or proved impact.
 
 ## 6. Accessibility
 
@@ -182,14 +189,15 @@ ProblemSpot's voice should be clear, respectful, practical, and encouraging.
 - “I experience this too”
 - “Add supporting evidence”
 - “This report needs more information”
-- “AI suggested a possible duplicate”
+- “This validated problem is ready for open-source contributors”
+- “Draft a solution brief in the AI Solution Lab”
 - “Community-supported”
 - “Marked as resolved”
 
 ### Avoid
 
 - Claiming a problem is verified solely because it received many votes.
-- Presenting AI-generated content as fact without review.
+- Presenting Solution Lab output as fact or approved work without review.
 - Blaming communities or individuals for complex problems.
 - Overpromising outcomes or implying that every report will receive a solution.
 - Using jargon when plain language is available.
@@ -239,7 +247,7 @@ If Tailwind CSS and shadcn/ui are used, map these colors into the project's them
 ### Do
 
 - Lead with community green.
-- Use blue to identify AI-assisted functionality.
+- Use blue to identify solution collaboration and optional Solution Lab actions.
 - Keep interfaces calm, clear, and accessible.
 - Use the approved logo assets consistently.
 - Make problem status and evidence requirements transparent.
@@ -249,7 +257,7 @@ If Tailwind CSS and shadcn/ui are used, map these colors into the project's them
 
 - Change logo proportions or apply unapproved colors.
 - Use green to imply verification when the report is only submitted or community-supported.
-- Use blue to imply that an AI result is correct.
+- Use blue to imply that generated output is correct or approved.
 - Rely only on color for status or feedback.
 - Hide privacy implications for submitted reports or evidence.
 - Add visual complexity that makes reporting a problem harder.
@@ -264,7 +272,9 @@ Before a release or major UI update, check that:
 - [ ] Status labels include readable text, not just colored badges.
 - [ ] Text and controls have appropriate contrast and keyboard focus.
 - [ ] Mobile, loading, empty, error, and success states are covered.
-- [ ] AI suggestions are clearly distinguished from human validation.
+- [ ] Solution Lab actions appear only for validated problems.
+- [ ] Generated artifacts are clearly distinguished from human validation and
+      approved contributor work.
 - [ ] Privacy and visibility are explained at relevant points in the reporting flow.
 - [ ] README and brand documentation match the implementation.
 

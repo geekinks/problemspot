@@ -49,12 +49,12 @@ Reports are especially useful when they identify a realistic security impact, su
 - Authentication bypass or account takeover.
 - Broken authorization or Supabase Row Level Security (RLS) policies.
 - Unauthorized access to private problem evidence, profile data, or moderation records.
-- Exposure of Supabase service-role keys, AI provider tokens, or other secrets.
+- Exposure of Supabase service-role keys, Solution Lab provider tokens, or other secrets.
 - SQL injection, cross-site scripting (XSS), or other exploitable input-handling issues.
 - Insecure file uploads or storage access.
 - Vote manipulation or abuse that bypasses server-side or database integrity controls.
 - Server-side request forgery (SSRF) or unsafe handling of external URLs.
-- Sensitive information disclosed through logs, errors, or AI-provider requests.
+- Sensitive information disclosed through logs, errors, or Solution Lab provider requests.
 
 The following are generally not security vulnerabilities on their own, although they may still be useful product feedback:
 
@@ -82,17 +82,22 @@ Good-faith security research conducted within these guidelines is appreciated. T
 
 When contributing code:
 
-- Keep secrets and privileged credentials on the server; never expose service-role keys or AI provider tokens to browser code.
+- Keep secrets and privileged credentials on the server; never expose
+  service-role keys or Solution Lab provider tokens to browser code.
 - Keep Supabase Row Level Security enabled for tables accessible through client-facing APIs, and test both permitted and denied access.
 - Enforce authorization on the server and, where appropriate, with database constraints and RLS—not only in the UI.
-- Validate and constrain untrusted input, uploaded files, external URLs, and AI-generated output.
+- Validate and constrain untrusted input, uploaded files, external URLs, and
+  Solution Lab output.
 - Apply least-privilege access and avoid collecting unnecessary personal information.
 - Keep private evidence private and make storage permissions explicit.
 - Avoid logging credentials, private reports, or sensitive user content.
 - Add regression tests for security fixes when practical.
 - Review new dependencies and document security-sensitive architecture changes.
 
-AI-generated classifications, summaries, and duplicate suggestions are untrusted outputs. They must not bypass authorization, moderation controls, or the community's evidence-review process.
+Solution Lab briefs, plans, issues, documentation, and generated code are
+untrusted outputs. The lab must reject unvalidated problems, respect evidence
+permissions, and never bypass authorization, pull-request review, testing,
+moderation controls, or the community's validation process.
 
 ## Secrets and Accidental Exposure
 

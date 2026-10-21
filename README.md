@@ -16,15 +16,21 @@
   <a href="https://github.com/geekinks/problemspot/pulls"><img src="https://img.shields.io/github/issues-pr/geekinks/problemspot?color=2563EB" alt="Open PRs" /></a>
 </p>
 
-ProblemSpot is an open-source, AI-assisted community problem discovery
-and validation platform. It helps people report challenges affecting
-their communities, enables others to confirm and support those reports,
-and connects developers, researchers, volunteers, and organizations with
-opportunities to build solutions.
+ProblemSpot is an open-source community problem discovery, validation,
+and solution-building platform. It helps people report challenges affecting
+their communities, enables others to confirm and support those reports, and
+turns validated problems into open-source missions for developers,
+researchers, volunteers, and organizations.
 
-> **Core principle:** People define the problems. Communities validate
-> the needs. AI assists the process. Contributors build the solutions.
-> Communities measure the impact.
+AI and coding agents have made creating software faster than ever. The harder
+question is no longer only *can we build an app?* It is *which problems are
+worth solving, who actually experiences them, and which solutions deserve
+people's time?* ProblemSpot exists to answer those questions through community
+evidence and human validation before solution work begins.
+
+> **Core principle:** People define the problems. Communities validate the
+> needs. Contributors build solutions in the open. AI may assist builders only
+> after validation. Communities measure the impact.
 
 - **Organization:** GeekInk Innovations Ltd
 - **Initiative:** Hacktoberfest 2026 — AI for Everyone
@@ -40,7 +46,7 @@ opportunities to build solutions.
 -   [Why ProblemSpot?](#why-problemspot)
 -   [How it works](#how-it-works)
 -   [Key features](#key-features)
--   [AI approach](#ai-approach)
+-   [AI Solution Lab](#ai-solution-lab)
 -   [Architecture](#architecture)
 -   [Technology stack](#technology-stack)
 -   [Getting started](#getting-started)
@@ -79,13 +85,16 @@ resources may be limited.
     is affected, and optional evidence.
 2.  **Validate:** Other people confirm that they experience the problem,
     express support, or contribute evidence.
-3.  **Organize:** AI can suggest categories, summarize reports, and
-    identify potential duplicates for human review.
-4.  **Collaborate:** Developers, researchers, designers, volunteers, and
-    partner organizations propose solutions.
-5.  **Implement:** Contributors document milestones, prototypes,
+3.  **Review:** Community moderators examine evidence, resolve duplicates,
+    and determine whether the problem meets published validation criteria.
+4.  **Open a mission:** A validated problem becomes an open-source challenge
+    with affected users, evidence, constraints, and success criteria.
+5.  **Collaborate:** Developers, researchers, designers, volunteers, and
+    partner organizations propose and build solutions together. The optional
+    AI Solution Lab can assist contributors at this stage.
+6.  **Implement:** Contributors document milestones, prototypes,
     repositories, and deployments.
-6.  **Measure impact:** The community and reviewers assess outcomes and
+7.  **Measure impact:** The community and reviewers assess outcomes and
     recognize meaningful contributions.
 
 ### Community confirmation is not the same as verification
@@ -98,8 +107,8 @@ ProblemSpot distinguishes between:
 -   **Verification:** An authorized reviewer has determined that
     sufficient evidence supports the stated problem.
 
-Vote totals and AI predictions are not, by themselves, proof that a
-claim is true.
+Vote totals are not, by themselves, proof that a claim is true. AI is not used
+to validate, rank, approve, reject, or verify community problem reports.
 
 ## Key features
 
@@ -117,13 +126,13 @@ claim is true.
 -   Evidence contributions and review workflows.
 -   Traceable status changes and moderation decisions.
 
-### AI-assisted analysis
+### Transparent progress and participation
 
--   Suggested problem categorization.
--   Concise report summaries.
--   Candidate duplicate and related-report discovery.
--   Structured problem briefs for potential contributors.
--   Human review of important AI-generated suggestions.
+-   Followable problem pages and visible status history.
+-   Updates when a report receives confirmation, evidence, review, or a
+    solution proposal.
+-   Human-managed categories, duplicate review, moderation, and validation.
+-   Shareable problem pages that help reporters gather community support.
 
 ### Community Impact Profiles
 
@@ -139,35 +148,44 @@ claim is true.
 -   Link repositories, prototypes, demos, and documentation.
 -   Track contributors and implementation milestones.
 -   Record evidence and assessments of outcomes.
+-   Use an optional AI Solution Lab after validation to prepare briefs, explore
+    approaches, identify skills, and break work into open-source tasks.
 
-## AI approach
+## AI Solution Lab
 
-AI is a supporting tool, not the authority on whether a community
-problem is genuine.
+ProblemSpot deliberately keeps AI out of problem reporting, community voting,
+moderation, and validation. Those activities depend on people, evidence,
+published criteria, and accountable human review.
 
-The initial AI workflow is designed to help with: - Categorization. -
-Summarization. - Duplicate detection. - Problem-brief generation.
+After a problem is validated, contributors may open the optional AI Solution
+Lab. The lab helps an open-source team turn a validated need into collaborative
+work. It may:
 
-The project plans to evaluate an open-weight Gemma model. A prototype
-may run Gemma 4 on an Arduino UNO Q using a compatible local inference
-runtime. Hardware capability, model licensing, memory requirements,
-latency, and model quality must be validated before claiming production
-readiness.
+-   Draft an editable solution brief from approved evidence.
+-   Identify unanswered research questions and implementation constraints.
+-   Suggest technical and non-technical approaches without selecting a winner.
+-   Break an accepted approach into milestones, GitHub issues, and contributor
+    roles.
+-   Draft repository documentation, testing criteria, accessibility checks, and
+    risk checklists.
+-   Summarize feedback from solution testing for the contributor team.
 
-The application should remain usable for core reporting and voting if
-the AI service is unavailable.
+AI output is always attributable, editable, and advisory. It cannot change the
+problem's validation status, rewrite the original report, choose the accepted
+solution, or claim that an implementation created impact. The entire platform,
+including manual solution collaboration, must work when the AI service is
+unavailable.
 
-For each deployed model, document: - Exact model identifier and
-version. - Model license or usage terms. - Runtime and setup
-instructions. - Hardware and memory requirements. - Evaluation
-methodology and known limitations.
+For each deployed model or coding-agent integration, document the exact model
+and version, license or terms, runtime, data-sharing behavior, evaluation
+methodology, and known limitations.
 
 ## Architecture
 
 ProblemSpot is designed as a modular Next.js application backed by
 Supabase. Supabase provides authentication, PostgreSQL, and file
-storage. A server-side AI adapter communicates with a separate inference
-service.
+storage. An optional, server-side Solution Lab adapter is available only to
+authorized contributors working on validated problems.
 
 ``` mermaid
 flowchart TD
@@ -176,9 +194,10 @@ flowchart TD
     WEB --> API[Server Actions and Route Handlers]
     API --> DB[(Supabase PostgreSQL)]
     API --> STORE[Supabase Storage]
-    API --> AI[ProblemSpot AI adapter]
-    AI --> MODEL[Gemma inference service]
-    MODEL --> UNO[Arduino UNO Q or secured host]
+    API --> LAB[Optional AI Solution Lab]
+    LAB --> AGENT[Model or coding-agent provider]
+    DB --> GATE{Problem validated?}
+    GATE -->|Yes| LAB
 ```
 
 ### Database entities
@@ -198,7 +217,7 @@ The proposed data model includes:
 -   `impact_assessments`
 -   `badges`
 -   `badge_awards`
--   `ai_analyses`
+-   `solution_lab_runs` (optional)
 -   `moderation_actions`
 -   `notifications` (optional)
 
@@ -216,9 +235,8 @@ and deployment plan.
   Authentication                 Supabase Auth
   Database                       Supabase PostgreSQL
   File storage                   Supabase Storage
-  AI integration                 Provider-independent server-side adapter
-  Local AI prototype             Gemma 4 with a compatible inference runtime
-  Potential inference hardware   Arduino UNO Q
+  Optional AI integration        Provider-independent Solution Lab adapter
+  Coding collaboration           GitHub repositories, issues, and pull requests
   Testing                        Unit, integration, and end-to-end tests
   CI/CD                          GitHub Actions (planned)
 
@@ -227,7 +245,7 @@ Technology choices may evolve as the project is tested and developed.
 ## Getting started
 
 > **Project status:** The Next.js app shell is available. Reporting,
-> authentication, Supabase, and AI integrations are planned but are not
+> authentication, Supabase, and Solution Lab integrations are planned but are not
 > required to run the landing page.
 
 ### Prerequisites
@@ -235,7 +253,8 @@ Technology choices may evolve as the project is tested and developed.
 -   Node.js 20.9 or newer.
 -   npm (or the package manager configured by the repository).
 -   Git.
--   Optional for future features: a Supabase project and Gemma inference service.
+-   Optional for future features: an approved AI or coding-agent provider for
+    the Solution Lab.
 
 ### 1. Clone the repository
 
@@ -299,17 +318,16 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 # Server-only secrets. Never expose these through NEXT_PUBLIC_* variables.
 SUPABASE_SERVICE_ROLE_KEY=
 
-# Optional server-side AI inference configuration
-GEMMA_BASE_URL=
-GEMMA_API_TOKEN=
+# Optional server-side Solution Lab configuration
+SOLUTION_LAB_PROVIDER=
+SOLUTION_LAB_API_TOKEN=
 ```
 
 Notes: - Use only the publishable/anon key in browser code, together
 with RLS. - The service-role/secret key bypasses RLS and must remain
-server-side. - Keep `GEMMA_API_TOKEN` server-side. - If the UNO Q is
-reachable only over a private network, configure the server-to-server
-connection accordingly. - Do not expose an unauthenticated model
-endpoint to the public internet.
+server-side. - Keep `SOLUTION_LAB_API_TOKEN` server-side. - Send only the
+minimum approved problem context to a provider. - Do not expose an
+unauthenticated model or agent endpoint to the public internet.
 
 ## Database and migrations
 
@@ -324,8 +342,8 @@ Recommended implementation order:
 4.  Evidence and Storage policies.
 5.  Solutions, contributors, milestones, and impact assessments.
 6.  Badges and recognition.
-7.  AI analysis and moderation records.
-8.  Notifications, if required.
+7.  Moderation records and notifications.
+8.  Optional Solution Lab runs for validated problems.
 
 Test RLS as different user roles, including unauthenticated users,
 regular users, submitters, and moderators. Do not rely on frontend
@@ -346,8 +364,9 @@ community information. Security and privacy are core requirements.
     locations.
 -   Provide anonymous public attribution where appropriate without
     bypassing moderation.
--   Rate-limit submissions, votes, uploads, and expensive AI requests.
--   Keep AI suggestions separate from original user reports.
+-   Rate-limit submissions, votes, uploads, and Solution Lab requests.
+-   Keep Solution Lab output separate from original reports and reviewed
+    evidence.
 -   Record moderation and verification decisions.
 -   Publish privacy, moderation, and security-reporting policies before
     public launch.
@@ -375,10 +394,10 @@ proposals.
 -   [ ] Implement community confirmation and support voting.
 -   [ ] Add validation status history and moderation.
 -   [ ] Add evidence uploads with private Storage policies.
--   [ ] Add AI-assisted categorization and summarization.
--   [ ] Evaluate Gemma 4 inference on Arduino UNO Q.
--   [ ] Add duplicate detection suggestions.
+-   [ ] Add human-managed categories and duplicate-review workflows.
 -   [ ] Add solution proposals and contributor attribution.
+-   [ ] Add GitHub-linked open-source challenge workspaces.
+-   [ ] Add the optional AI Solution Lab for validated problems.
 -   [ ] Add Community Impact Profiles and recognition badges.
 -   [ ] Track implementation milestones and impact assessments.
 -   [ ] Add automated tests, CI, and deployment documentation.
@@ -391,10 +410,10 @@ writers, community organizers, and people who understand local
 challenges.
 
 Potential contribution areas: - Frontend and accessibility. - Backend
-and Supabase database design. - RLS policies and security testing. - AI
-model evaluation and integration. - Documentation and tutorials. - Hausa
-and other language support. - Community research and user testing. -
-Moderation and responsible AI workflows.
+and Supabase database design. - RLS policies and security testing. - Solution
+Lab and coding-agent integration. - Documentation and tutorials. - Hausa and
+other language support. - Community research and user testing. - Moderation,
+validation, and open-source collaboration workflows.
 
 Before contributing:
 
@@ -406,8 +425,9 @@ Before contributing:
     evidence.
 6.  Explain the problem your change solves and how it was tested.
 
-For AI-related contributions, include the model/runtime details,
-licensing information, evaluation method, and known limitations.
+For Solution Lab contributions, include model or agent details, licensing and
+data-sharing information, evaluation methods, safeguards, and known
+limitations. The integration must enforce the validated-problem gate.
 
 ## Community and support
 
@@ -429,7 +449,7 @@ copyleft option. The maintainers should select the license that fits the
 project's goals and add the full license text in `LICENSE`.
 
 The application license does not automatically apply to third-party
-models, datasets, user-submitted evidence, or other external assets.
+models, coding agents, datasets, user-submitted evidence, or other external assets.
 Document their respective terms separately.
 
 ------------------------------------------------------------------------
