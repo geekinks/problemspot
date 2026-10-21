@@ -134,7 +134,19 @@ problemspot/
 ├── tests/
 ├── docs/
 │   ├── PRD.md
-│   └── ARCHITECTURE.md
+│   ├── ARCHITECTURE.md
+│   ├── DEVELOPMENT.md
+│   ├── TESTING.md
+│   ├── VALIDATION_POLICY.md
+│   ├── MODERATION_POLICY.md
+│   ├── OPEN_SOURCE_MISSION_GUIDE.md
+│   ├── SOLUTION_LAB_POLICY.md
+│   ├── DATA_AND_PRIVACY.md
+│   ├── ACCESSIBILITY.md
+│   ├── DATABASE.md
+│   ├── API.md
+│   ├── DEPLOYMENT.md
+│   └── adr/
 ├── .env.example
 ├── CONTRIBUTING.md
 ├── SECURITY.md

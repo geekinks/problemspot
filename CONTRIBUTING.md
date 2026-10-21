@@ -55,9 +55,17 @@ If you are new to the project, look for issues marked `good first issue` or `hel
 1. Read the project [README](README.md) to understand the product and setup.
 2. Review [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) before changing
    application structure, database design, validation, or Solution Lab integration.
-3. Search existing issues and pull requests to avoid duplicating work.
-4. For a significant feature or architectural change, open an issue first so the approach can be discussed.
-5. Never publish secrets, private user information, or real-world evidence that you do not have permission to share.
+3. Read the relevant policy: [validation](docs/VALIDATION_POLICY.md),
+   [moderation](docs/MODERATION_POLICY.md),
+   [privacy](docs/DATA_AND_PRIVACY.md), or
+   [Solution Lab](docs/SOLUTION_LAB_POLICY.md).
+4. Use [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) for setup and
+   [docs/TESTING.md](docs/TESTING.md) for required verification.
+5. Search existing issues and pull requests to avoid duplicating work.
+6. For a significant feature or architectural change, open an issue first so
+   the approach can be discussed and record an ADR when appropriate.
+7. Never publish secrets, private user information, or real-world evidence that
+   you do not have permission to share.
 
 If you are unsure whether an idea fits the project, open an issue with the problem you are trying to solve and your proposed approach.
 

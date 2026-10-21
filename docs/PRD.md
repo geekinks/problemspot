@@ -640,13 +640,27 @@ problemspot/
 ├── docs/
 │   ├── PRD.md
 │   ├── ARCHITECTURE.md
+│   ├── DEVELOPMENT.md
+│   ├── TESTING.md
+│   ├── VALIDATION_POLICY.md
+│   ├── MODERATION_POLICY.md
+│   ├── OPEN_SOURCE_MISSION_GUIDE.md
 │   ├── SOLUTION_LAB_POLICY.md
-│   └── MODERATION_POLICY.md
+│   ├── DATA_AND_PRIVACY.md
+│   ├── ACCESSIBILITY.md
+│   ├── DATABASE.md
+│   ├── API.md
+│   ├── DEPLOYMENT.md
+│   └── adr/
 ├── .github/
 │   ├── ISSUE_TEMPLATE/
 │   └── workflows/
 ├── CONTRIBUTING.md
 ├── CODE_OF_CONDUCT.md
+├── GOVERNANCE.md
+├── SUPPORT.md
+├── ROADMAP.md
+├── CHANGELOG.md
 ├── SECURITY.md
 ├── LICENSE
 └── README.md
@@ -1193,10 +1207,24 @@ The repository should include:
 - `CONTRIBUTING.md`
 - `CODE_OF_CONDUCT.md`
 - `SECURITY.md`
+- `SUPPORT.md`
+- `GOVERNANCE.md`
+- `ROADMAP.md`
+- `CHANGELOG.md`
 - `docs/PRD.md`
 - `docs/ARCHITECTURE.md`
-- `docs/SOLUTION_LAB_POLICY.md`
+- `docs/DEVELOPMENT.md`
+- `docs/TESTING.md`
+- `docs/VALIDATION_POLICY.md`
 - `docs/MODERATION_POLICY.md`
+- `docs/OPEN_SOURCE_MISSION_GUIDE.md`
+- `docs/SOLUTION_LAB_POLICY.md`
+- `docs/DATA_AND_PRIVACY.md`
+- `docs/ACCESSIBILITY.md`
+- `docs/DATABASE.md`
+- `docs/API.md`
+- `docs/DEPLOYMENT.md`
+- `docs/adr/README.md`
 
 ### Contribution principles
 

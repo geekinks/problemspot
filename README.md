@@ -48,6 +48,7 @@ evidence and human validation before solution work begins.
 -   [Key features](#key-features)
 -   [AI Solution Lab](#ai-solution-lab)
 -   [Architecture](#architecture)
+-   [Project documentation](#project-documentation)
 -   [Technology stack](#technology-stack)
 -   [Getting started](#getting-started)
 -   [Environment variables](#environment-variables)
@@ -224,6 +225,38 @@ The proposed data model includes:
 See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the detailed
 architecture, entity relationships, RLS policy intent, API boundaries,
 and deployment plan.
+
+## Project documentation
+
+### Product and community
+
+-   [Product requirements](docs/PRD.md)
+-   [Roadmap](ROADMAP.md)
+-   [Code of Conduct](CODE_OF_CONDUCT.md)
+-   [Governance](GOVERNANCE.md)
+-   [Support](SUPPORT.md)
+-   [Problem validation policy](docs/VALIDATION_POLICY.md)
+-   [Moderation policy](docs/MODERATION_POLICY.md)
+-   [Data and privacy guide](docs/DATA_AND_PRIVACY.md)
+
+### Contributors and engineering
+
+-   [Contributing guide](CONTRIBUTING.md)
+-   [Development setup](docs/DEVELOPMENT.md)
+-   [Testing guide](docs/TESTING.md)
+-   [Accessibility guide](docs/ACCESSIBILITY.md)
+-   [Architecture](docs/ARCHITECTURE.md)
+-   [Database guide](docs/DATABASE.md)
+-   [API guide](docs/API.md)
+-   [Deployment guide](docs/DEPLOYMENT.md)
+-   [Architecture decision records](docs/adr/README.md)
+
+### Open-source solutions
+
+-   [Open-source mission guide](docs/OPEN_SOURCE_MISSION_GUIDE.md)
+-   [AI Solution Lab policy](docs/SOLUTION_LAB_POLICY.md)
+-   [Security policy](SECURITY.md)
+-   [Changelog](CHANGELOG.md)
 
 ## Technology stack
 
@@ -417,7 +450,7 @@ validation, and open-source collaboration workflows.
 
 Before contributing:
 
-1.  Read [`CONTRIBUTING.md`](CONTRIBUTING.md) when available.
+1.  Read [`CONTRIBUTING.md`](CONTRIBUTING.md).
 2.  Check existing issues and discussions.
 3.  Start with a clearly scoped issue.
 4.  Include tests for behavior changes.
@@ -434,8 +467,10 @@ limitations. The integration must enforce the validated-problem gate.
 ProblemSpot is an initiative associated with **GeekInk Innovations Ltd**
 and the Hacktoberfest 2026 theme **AI for Everyone**.
 
-As the community grows, add the project's official website, discussion
-space, community guidelines, and contact details here.
+Use [GitHub Discussions](https://github.com/geekinks/problemspot/discussions)
+for questions and community conversation. See [SUPPORT.md](SUPPORT.md) for the
+correct bug, feature, community-use-case, and private security channels. All
+participants must follow [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 
 Please be respectful and constructive. Contributors should receive
 credit for both identifying important problems and helping implement
