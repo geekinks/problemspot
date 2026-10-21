@@ -231,6 +231,9 @@ and deployment plan.
 ### Product and community
 
 -   [Product requirements](docs/PRD.md)
+-   [Application specification](docs/APPLICATION_SPEC.md)
+-   [User flows](docs/USER_FLOWS.md)
+-   [User journeys](docs/USER_JOURNEYS.md)
 -   [Roadmap](ROADMAP.md)
 -   [Code of Conduct](CODE_OF_CONDUCT.md)
 -   [Governance](GOVERNANCE.md)
@@ -242,6 +245,7 @@ and deployment plan.
 ### Contributors and engineering
 
 -   [Contributing guide](CONTRIBUTING.md)
+-   [Contributor workstreams](docs/CONTRIBUTOR_WORKSTREAMS.md)
 -   [Development setup](docs/DEVELOPMENT.md)
 -   [Testing guide](docs/TESTING.md)
 -   [Accessibility guide](docs/ACCESSIBILITY.md)

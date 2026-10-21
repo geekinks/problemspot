@@ -639,6 +639,10 @@ problemspot/
 ├── tests/
 ├── docs/
 │   ├── PRD.md
+│   ├── APPLICATION_SPEC.md
+│   ├── USER_FLOWS.md
+│   ├── USER_JOURNEYS.md
+│   ├── CONTRIBUTOR_WORKSTREAMS.md
 │   ├── ARCHITECTURE.md
 │   ├── DEVELOPMENT.md
 │   ├── TESTING.md
@@ -1212,6 +1216,10 @@ The repository should include:
 - `ROADMAP.md`
 - `CHANGELOG.md`
 - `docs/PRD.md`
+- `docs/APPLICATION_SPEC.md`
+- `docs/USER_FLOWS.md`
+- `docs/USER_JOURNEYS.md`
+- `docs/CONTRIBUTOR_WORKSTREAMS.md`
 - `docs/ARCHITECTURE.md`
 - `docs/DEVELOPMENT.md`
 - `docs/TESTING.md`

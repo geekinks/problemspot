@@ -134,6 +134,10 @@ problemspot/
 ├── tests/
 ├── docs/
 │   ├── PRD.md
+│   ├── APPLICATION_SPEC.md
+│   ├── USER_FLOWS.md
+│   ├── USER_JOURNEYS.md
+│   ├── CONTRIBUTOR_WORKSTREAMS.md
 │   ├── ARCHITECTURE.md
 │   ├── DEVELOPMENT.md
 │   ├── TESTING.md
